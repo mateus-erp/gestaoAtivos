@@ -1,0 +1,40 @@
+Tela de cadastrar sala
+1. Adicionar Dropdowns ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~OK~~~~~~~~~~~~~~~~~~~~
+
+Tela de Cadastro de colaboradores
+1. Mudar o tipo para um dropdown ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~OK~~~~~~~~~~~~~~~~~~~~
+2. Mandar para o email a email e a senha. ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~OK~~~~~~~~~~~~~~~~~~~~ 
+3. Aparecer a mensagem falando que foi para o email ~~~~~~~~~~~~~~~~~~~~OK~~~~~~~~~~~~~~~~~~~~
+
+Tela de Cadastro de alunos
+1. Mudar o tipo para um dropdown ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~OK~~~~~~~~~~~~~~~~~~~~
+2. Mandar para o email a email e a senha. ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~OK~~~~~~~~~~~~~~~~~~~~ 
+3. Aparecer a mensagem falando que foi para o email ~~~~~~~~~~~~~~~~~~~~OK~~~~~~~~~~~~~~~~~~~~
+
+Tela de Login
+1. Adicionar Dropdown para tipo da conta ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~OK~~~~~~~~~~~~~~~~~~~~
+2. Adicionar botão para buscar sala ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~OK~~~~~~~~~~~~~~~~~~~~
+    2.1. Adicionar dropdown de bloco----------------------------------FAZER-------------------
+    2.2. Adicionar dropdown de salas----------------------------------FAZER-------------------
+
+Tela de reservar equipamento
+1. Adicionar um calendário ao clicar no TextInput ~~~~~~~~~~~~~~~~~~~~~~OK~~~~~~~~~~~~~~~~~~~~
+2. Organizar a tela---------------------------------------------------FAZER-------------------
+
+Tela de aluno
+1. Botão ver minhas salas~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~OK~~~~~~~~~~~~~~~~~~~~
+1.1. Acionar um modal ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~OK~~~~~~~~~~~~~~~~~~~~
+1.1.1. Mostrar as disciplinas matriculadas----------------------------FAZER-------------------
+2. Criar um botão pesquisa de salas ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~OK~~~~~~~~~~~~~~~~~~~~
+2.1. Adicionar a funcionalidade ao botão------------------------------FAZER-------------------
+
+Tela de professor
+1. Botão ver minhas salas~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~OK~~~~~~~~~~~~~~~~~~~~
+1.1. Acionar um modal ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~OK~~~~~~~~~~~~~~~~~~~~
+1.1.1. Mostrar as disciplinas lecionadas------------------------------FAZER-------------------
+2. Criar um botão pesquisa de salas ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~OK~~~~~~~~~~~~~~~~~~~~
+2.1. Adicionar a funcionalidade ao botão------------------------------FAZER-------------------
+3. Modificar para aparecer as reservas atuais-------------------------FAZER-------------------
+3.1. criar um botão nessa tela para adicionar novas-------------------FAZER-------------------
+4. Cria tela de reservas de equipamentos -----------------------------FAZER-------------------
+5. Cria tela de reservas de salas-------------------------------------FAZER-------------------

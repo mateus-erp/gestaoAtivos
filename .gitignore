@@ -1,0 +1,33 @@
+node_modules/**/*
+.expo/*
+npm-debug.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/
+web-report/
+Backups/
+Cache/
+CachedData/
+CachedExtensions/
+Code Cache/
+Cookies
+Cookies-journal
+GPUCache/
+Network Persistent State
+Session Storage/
+TransportSecurity
+User/
+languagepacks.json
+logs/
+machineid
+package-lock.json
+rapid_render.json
+storage.json
+src/config
+
+# macOS
+.DS_Store
