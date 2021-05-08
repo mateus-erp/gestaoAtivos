@@ -2,10 +2,10 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-export default function App() {
+export default function TelaSGP({ navigation }) {
   return (
     <View style={styles.container}>
-      <Text>Tela de </Text>
+      <Text>Tela de SGP</Text>
       <StatusBar style="auto" />
     </View>
   );
