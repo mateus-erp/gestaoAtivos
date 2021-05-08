@@ -1,16 +1,14 @@
-import React from 'react';
+import React from 'react'
+import ignoreWarnings from 'react-native-ignore-warnings'
+import Routes from './src/routes.js'
 
-import {Route} from './src/routes'
-import { FIREBASE } from './src/config'
-import firebase from "firebase"
+import firebase from 'firebase'
+import {FIREBASE} from './src/config.js'
 
 if(!firebase.apps.length) firebase.initializeApp(FIREBASE)
 
-export default function App() {
-  return (
-    <>
-      <Route />
-    </>
-  );
-}
+ignoreWarnings('Setting a timer');
 
+export default function App() {
+  return (<Routes />)
+}
