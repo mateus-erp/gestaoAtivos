@@ -1,21 +1,32 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react'
+import { Text, View } from 'react-native'
+
+import Icon from 'react-native-vector-icons/FontAwesome'
+
+import {theme} from '../../themes/darkTheme'
+import ActionBox from '../../components/ActionBox'
+import ActionButton from '../../components/ActionButton'
 
 export default function TelaSGP({ navigation }) {
   return (
-    <View style={styles.container}>
-      <Text>Tela de SGP</Text>
-      <StatusBar style="auto" />
+    <View style={theme.container}>
+      <View style={theme.header}>
+        <Text style={theme.text_header}>Bem-vindo, Fulano</Text>
+        <Icon name= 'black-tie' style={{color: '#fff', fontSize: 35, alignSelf: 'center'}}></Icon>
+      </View>
+      <View style={theme.content}>
+        <View style={theme.buttons}>
+          <ActionBox title="Avaliar Reservas" icon="book"></ActionBox>
+          <ActionBox title="Cadastrar Salas" icon="home"></ActionBox>
+          <ActionBox title="Cadastrar Disciplinas" icon="tag"></ActionBox>
+          <ActionBox title="Cadastrar Colaboradores" icon="address-card"></ActionBox>
+          <ActionBox title="Cadastrar Equipamentos" icon="desktop"></ActionBox>
+        </View>
+        <View style={theme.logout}>
+          <ActionButton icon='arrow-circle-left' title='Logout'></ActionButton>
+        </View>
+      </View>
+      
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
