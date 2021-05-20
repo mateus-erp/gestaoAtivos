@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
-import { View, Text, Alert, AsyncStorage }from 'react-native'
-import { TextInput, Button } from 'react-native-paper'
+import React, {useState, useEffect} from 'react';
+import { Text, View, StyleSheet, TextInput, TouchableOpacity, Alert, AsyncStorage, StatusBar } from 'react-native';
+import { Button } from 'react-native-paper'
 import firebase from 'firebase'
-import { theme } from '../../themes/darkTheme'
+import { roxo, cinza, branco, claro, escuro } from '../cores'
 
 export default function TelaLogin({ navigation }) {
   const db = firebase.database()
@@ -11,10 +11,49 @@ export default function TelaLogin({ navigation }) {
   const [usuario, setUsuario] = useState({email: '', senha: '', tipoDeColaborador: ''})
   const [loading, setLoading] = useState(false)
 
-  async function submit(){
-    setLoading(true)
-    cadastrarNoAuth()
-  }
+  useEffect(() => {
+    limparDados()
+  }, [])
+
+  return (
+    <View style={Styles.container}>
+      <View style={Styles.header}>
+        <View style={Styles.subHeader1}>
+          <Text style={Styles.title}>Sign In</Text>
+        </View>
+        <View style={Styles.subHeader2}></View>
+      </View>
+      <View>
+        <View style={Styles.form}>
+          <Text>Email</Text>
+          <TextInput
+            style={Styles.input}
+            placeholder="contact@gmail.com"
+            keyboardType={'email-address'}
+            autoCapitalize='none'
+            value={usuario.email}
+            onChangeText={texto => setUsuario({...usuario, email: texto})}
+          />
+        </View>
+        <View style={Styles.form}>
+          <Text>Password</Text>
+          <TextInput
+            style={Styles.input}
+            placeholder="*******"
+            keyboardType={'numeric'}
+            secureTextEntry={true}
+            value={usuario.senha}
+            onChangeText={texto => setUsuario({ ...usuario, senha: texto })}
+          />
+        </View>
+        <Button style={Styles.bottom} mode="outlined" onPress={() => metodoLogin()}><Text style={{ color: claro }}>Login</Text></Button>
+        <TouchableOpacity style={Styles.fotter} onPress={() => navigation.navigate('TelaResetarSenha')}>
+          <Text>Don't have any account? <Text style={{ color: roxo}}>Sign Up</Text></Text>
+        </TouchableOpacity>
+      </View>
+      <StatusBar/>
+    </View>
+  )
 
   async function guardarNoAsync(){
     const {email} = usuario
@@ -33,6 +72,12 @@ export default function TelaLogin({ navigation }) {
       Alert.alert('Atenção', 'Erro ao salvar o email do colaborador')
     }
   }
+
+  async function metodoLogin(){
+    setLoading(true)
+    cadastrarNoAuth()
+  }
+
   async function cadastrarNoAuth(){
     let uid = ''
     const {email, senha} = usuario
@@ -47,67 +92,95 @@ export default function TelaLogin({ navigation }) {
       })
   }
 
-    async function getTipoDeColaborador(uid){
-      let datalist= []
-      let res = await ref.child(uid).once("value")
-        if(res.val()){
-          res.forEach((e) => {
-            datalist.push({key: e.key, ...e.val()})
-          })
-          irParaHome(datalist[0].tipoDeColaborador)
-        }else{
-          datalist = []
-          limparDados()
-          Alert.alert('Atenção', 'Tipo de colaborador não identificado')
-        }
-    }
-  
-    function irParaHome(tipoDeColaborador){
-      guardarNoAsync()
-        if(tipoDeColaborador=='Aluno'){
-          navigation.navigate('TelaAluno')
-        }else if(tipoDeColaborador=='Professor'){
-          navigation.navigate('TelaProfessor')
-        }else if(tipoDeColaborador=='SGP'){
-          navigation.navigate('TelaSGP')
-        }else{
-          Alert.alert('Atenção', 'Tipo de usuário não identicado')
-        }
-      limparDados()
-      setLoading(false)
-    }
+  async function getTipoDeColaborador(uid){
+    let datalist= []
+    let res = await ref.child(uid).once("value")
+      if(res.val()){
+        res.forEach((e) => {
+          datalist.push({key: e.key, ...e.val()})
+        })
+        irParaHome(datalist[0].tipoDeColaborador)
+      }else{
+        datalist = []
+        limparDados()
+        Alert.alert('Atenção', 'Tipo de colaborador não identificado')
+      }
+  }
 
-    function limparDados(){
-      setUsuario({email: '', senha: ''})
-    }
-    
-    return (
-        <View style={theme.container}>
-            <View style={{flex: 0.3, alignItems: 'center', justifyContent: 'center', margin: 5, flexDirection: 'column'}}>
-                <Text style={theme.header}>Login com E-mail</Text>
-            </View>
+  function irParaHome(tipoDeColaborador){
+    guardarNoAsync()
+      if(tipoDeColaborador=='Aluno'){
+        navigation.navigate('TelaAluno')
+      }else if(tipoDeColaborador=='Professor'){
+        navigation.navigate('TelaProfessor')
+      }else if(tipoDeColaborador=='SGP'){
+        navigation.navigate('TelaSGP')
+      }else{
+        Alert.alert('Atenção', 'Tipo de usuário não identicado')
+      }
+    limparDados()
+    setLoading(false)
+  }
 
-            <View>
-                <TextInput 
-                    style={{height: 40}}
-                    placeholder="Email"
-                    value={usuario.email}
-                    onChangeText={texto => setUsuario({...usuario, email: texto})}
-                    autoCapitalize={'none'}
-                    keyboardType={'default'}
-                />
-                <TextInput
-                    style={{height: 40}}
-                    placeholder="Senha"
-                    value={usuario.senha}
-                    onChangeText={texto => setUsuario({...usuario, senha: texto})}
-                    autoCapitalize={'none'}
-                    keyboardType={'numeric'}
-                    secureTextEntry={true}
-                />
-                <Button mode="outlined" onPress={submit}>Entrar</Button>
-                <Button mode="outlined" onPress={()=>navigation.navigate('signup')}>ou Registre-se</Button>
-            </View>
-        </View>
-    );
+  function limparDados(){
+    setUsuario({email: '', senha: ''})
+  }
+
 }
+
+const Styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: branco,
+  },
+
+  header: {
+    backgroundColor: roxo,
+    height: 200,
+  },
+
+  subHeader1: {
+    height: 150,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  title: {
+    color: claro,
+    fontSize: 30,
+  },
+
+  subHeader2: {
+    backgroundColor: branco,
+    height: 50,
+    borderTopLeftRadius: 100,
+  },
+
+  form: {
+    margin: 20,
+    padding: 10,
+    borderRadius: 10,
+    backgroundColor: claro,
+  },
+
+  input: {
+    height: 40,
+    backgroundColor: claro,
+  },
+
+  bottom: {
+    margin: 20,
+    backgroundColor: roxo,
+    borderRadius: 5,
+    padding: 5,
+    borderTopRightRadius: 0,
+    borderBottomRightRadius: 15,
+    borderTopLeftRadius: 15,
+    borderBottomLeftRadius: 15,
+  },
+
+  fotter: {
+    alignItems: 'center',
+  },
+});
+

@@ -10,7 +10,7 @@ export default function TelaCadastrarAgendaAluno({ navigation }) {
   const db = firebase.database()
   const ref = db.ref('agendas')
 
-  const [agenda, setAgenda] = useState({dono: '', disciplina: '', sala: '', professor: '', dias: '', horario: ''})
+  const [agenda, setAgenda] = useState({dono: '', disciplina: '', sala: '',dias: '', horario: ''})
   const [loading, setLoading] = useState(false)
   const [dadosDropDownSalas, setDadosDropDownSalas] = useState([])
 
@@ -22,7 +22,7 @@ export default function TelaCadastrarAgendaAluno({ navigation }) {
   return (
     <View style={Styles.containerPrincipal}>
       <Text style={Styles.titulo}>Nova anotação</Text>
-      <ScrollView style={{maxHeight: 310, margin:30}}>
+      <ScrollView style={{maxHeight: 250, margin:30}}>
         <View style={{margin: 5, alignSelf: 'center'}}>
             <DatePicker
                 style={{width: 200}}
@@ -62,16 +62,6 @@ export default function TelaCadastrarAgendaAluno({ navigation }) {
             label='Sala'
             data={dadosDropDownSalas}
             onChangeText={texto => setAgenda({...agenda, sala: texto})}
-          />
-        </View>
-        <View style={Styles.containerDosDados}>
-          <TextInput
-            style={{height: 40}}
-            value={agenda.professor}
-            placeholder="Professor"
-            onChangeText={texto => setAgenda({...agenda, professor: texto})}
-            autoCapitalize={'sentences'}
-            maxLength={20}
           />
         </View>
       </ScrollView>
@@ -123,12 +113,12 @@ export default function TelaCadastrarAgendaAluno({ navigation }) {
   }
 
   function inserirNovaAgenda() {
-    const {dono, disciplina, sala, professor, horario, dias} = agenda
+    const {dono, disciplina, sala, horario, dias} = agenda
     if(dono==''){
       getEmail()
       inserirNovaAgenda()
     }else{
-      if(disciplina=='' || sala=='' || professor=='' || horario=='', dias==''){
+      if(disciplina=='' || sala==''|| horario=='', dias==''){
         Alert.alert('Atenção', 'Você precisa preencher todos os campos.')
       }else{
         metodoInserir()
@@ -138,12 +128,11 @@ export default function TelaCadastrarAgendaAluno({ navigation }) {
 
   async function metodoInserir(){
     setLoading(true)
-    const {dono, disciplina, sala, professor, horario, dias} = agenda
+    const {dono, disciplina, sala, horario, dias} = agenda
       await ref.push({
         dono: dono,
         disciplina: disciplina,
         sala: sala,
-        professor: professor,
         horario: horario,
         dias: dias,
       })

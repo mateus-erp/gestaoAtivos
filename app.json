@@ -1,14 +1,18 @@
 {
   "expo": {
-    "name": "gestaoAtivos",
-    "slug": "gestaoAtivos",
+    "name": "Ativos",
+    "slug": "Ativos",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo.png",
     "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "image": "./assets/loading.png",
+      "backgroundColor": "#6C49BC"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -19,14 +23,6 @@
     "ios": {
       "supportsTablet": true
     },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
-      }
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    }
+    "description": "O projeto tem foco na geolocalização da Estácio da unidade Moreira Campos, Fortaleza/CE, entretanto, outros detalhes também foram implementados, para engrandecer o mesmo."
   }
 }
