@@ -1,102 +1,32 @@
-import React, {Component} from 'react';
-import { Text, View, ScrollView, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native';
-import Constants from 'expo-constants';
+import React from 'react'
+import { Text, View } from 'react-native'
 
+import Icon from 'react-native-vector-icons/FontAwesome'
+
+import {theme} from '../../themes/darkTheme'
+import ActionBox from '../../components/ActionBox'
+import ActionButton from '../../components/ActionButton'
 
 export default function TelaSGP({ navigation }) {
   return (
-    <View style={Styles.containerPrincipal}>
-      <View style={Styles.imagemContainer}>
-        <Image
-          style={Styles.redimensionarLogo}
-          source={require('../../../assets/SGP.png')}
-        />
-        <Image
-          style={Styles.redimensionarLogo}
-          source={require('../../../assets/logo.png')}
-        />
+    <View style={theme.container}>
+      <View style={theme.header}>
+        <Text style={theme.text_header}>Bem-vindo, Fulano</Text>
+        <Icon name= 'black-tie' style={{color: '#fff', fontSize: 35, alignSelf: 'center'}}></Icon>
       </View>
-
-      <Text style={Styles.titulo}>{"Gestão de Ativos"}</Text>
-
-      <ScrollView style={Styles.botaoContainer}>
-        <TouchableOpacity style={Styles.botoesSuperiores} onPress={()=>navigation.navigate('TelaConfigurarLocais')}>
-          <Text style={Styles.textoBotoesSuperiores}>Configurar locais</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={Styles.botoesSuperiores} onPress={()=>navigation.navigate('TelaVerificarReservasEquipamentos')}>
-          <Text style={Styles.textoBotoesSuperiores}>Verificar reservas</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={Styles.botoesSuperiores} onPress={()=>navigation.navigate('TelaCadastrarColaborador')}>
-          <Text style={Styles.textoBotoesSuperiores}>Cadastrar colaboradores</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={Styles.botoesSuperiores} onPress={()=>Alert.alert('Atenção','Em construção, volte mês que vem!')}>
-        <Text style={Styles.textoBotoesSuperiores}>Chat</Text>
-        </TouchableOpacity>
-      </ScrollView>
-      <TouchableOpacity style={Styles.botaoDeSair} onPress={()=>navigation.navigate('TelaLogin')}>
-        <Text style={Styles.textoBotaoSair}>Sair</Text>
-      </TouchableOpacity>
+      <View style={theme.content}>
+        <View style={theme.buttons}>
+          <ActionBox title="Avaliar Reservas" icon="book"></ActionBox>
+          <ActionBox title="Cadastrar Salas" icon="home"></ActionBox>
+          <ActionBox title="Cadastrar Disciplinas" icon="tag"></ActionBox>
+          <ActionBox title="Cadastrar Colaboradores" icon="address-card"></ActionBox>
+          <ActionBox title="Cadastrar Equipamentos" icon="desktop"></ActionBox>
+        </View>
+        <View style={theme.logout}>
+          <ActionButton icon='arrow-circle-left' title='Logout'></ActionButton>
+        </View>
+      </View>
+      
     </View>
   );
 }
-
-const Styles = StyleSheet.create({
-  containerPrincipal: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingTop: Constants.statusBarHeight,
-    backgroundColor: 'white',
-  },
-  imagemContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
-  },
-  botaoContainer: {
-    margin: 10,
-    maxHeight: 360,
-  },
-  redimensionarLogo: {
-      width: 120,
-      height: 120,
-      resizeMode: 'contain',
-      margin: 10,
-  },
-  titulo: {
-    fontSize: 30,
-    color: '#02246c',
-    fontWeight: 'bold',
-  },
-  textoBotoesSuperiores: {
-    fontSize: 20,
-    color: '#02246c',
-    fontWeight: 'bold',
-  },
-  textoBotaoSair: {
-    fontSize: 20,
-    color: 'white',
-    fontWeight: 'bold',
-  },
-  botoesSuperiores: {
-    width: 320,
-    height: 70,
-    backgroundColor: '#dae6c2',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 15,
-    borderColor: '#284474',
-    borderWidth: 1,
-    margin: 10,
-  },
-  botaoDeSair: {
-    width: 320,
-    height: 70,
-    backgroundColor: '#002566',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 15,
-    margin: 10,
-  },
-});
-
