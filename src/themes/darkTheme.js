@@ -7,8 +7,7 @@ export const theme = {
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'stretch',
-        padding: 15,
-        backgroundColor: escuro,
+        backgroundColor: roxo,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -19,32 +18,31 @@ export const theme = {
         elevation: 6,
     },
     header: {
-        marginTop: 40,
-        marginLeft: 5,
+        marginTop: 30,
         marginBottom: 15,
+        paddingRight: 10,
+        paddingLeft: 20,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center'
     },
     buttons:{
         flexDirection: 'column',
-        justifyContent: 'space-around',
-        
+        justifyContent: 'space-around',        
     },
     text_header:{
-        color: claro,
+        color: branco,
         fontSize: 28,
     },
     content: {
-        backgroundColor: cinza,
-        padding: 10,
+        backgroundColor: branco,
         borderTopLeftRadius: 35,
+        padding: 10,
         justifyContent: 'space-between',
-        width: Dimensions.get('window').width-30,
         height: Dimensions.get('window').height-60,
     },
     text_content: {
-        color: claro,
+        color: escuro,
         fontSize: 20,
     },
     actionbox:{
@@ -59,31 +57,32 @@ export const theme = {
     },
     text_actionbox:{
         fontSize:18,
-        color: claro,
+        color: escuro,
         margin: 20,
     },
     icon_actionbox:{
         fontSize:30,
-        color: claro,
+        color: escuro,
         width:35
     },
     actionbutton:{
         flexDirection: 'row',
-        width: Dimensions.get('window').width-60,
+        width: Dimensions.get('window').width-30,
         backgroundColor: roxo,
         height: 50,
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius:5,
         margin: 5,
+        marginBottom: 40
     },
     icon_actionbutton:{
         fontSize:30,
-        color: claro,
+        color: branco,
         width:35
     },
     text_actionbutton:{
         fontSize:18,
-        color: claro,
+        color: branco,
    },
 }
