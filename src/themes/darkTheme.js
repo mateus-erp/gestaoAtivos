@@ -45,6 +45,10 @@ export const theme = {
         color: escuro,
         fontSize: 20,
     },
+    small_buttons:{
+        height: 50, 
+        width: 50,
+    },
     actionbox:{
         flexDirection: 'row',
         width: Dimensions.get('window').width-60,
@@ -85,4 +89,27 @@ export const theme = {
         fontSize:18,
         color: branco,
    },
+   textbox:{
+    margin: 10,
+    width: Dimensions.get('window').width-100,
+    alignSelf: 'center',
+   },
+   dropdown:{
+    margin: 10,
+    width: Dimensions.get('window').width-180,
+    alignSelf: 'center',
+   },
+   subcontainer:{
+    flexDirection: 'row',
+    margin: 5,
+    backgroundColor: claro,
+    width: Dimensions.get('window').width-20,
+    height: 250,
+    justifyContent: 'center',
+    borderTopLeftRadius: 25,
+    borderColor: escuro,
+    borderWidth: 1,
+    alignItems: 'center',
+    alignSelf: 'center'
+  },
 }

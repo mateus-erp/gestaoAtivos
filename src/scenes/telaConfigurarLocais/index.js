@@ -6,6 +6,8 @@ import { Dropdown } from 'react-native-material-dropdown-v2';
 import firebase from 'firebase'
 import { FontAwesome, FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons'; 
 
+import {theme} from '../../themes/darkTheme'
+import ActionButton from '../../components/ActionButton'
 
 export default function TelaConfigurarLocais({ navigation }) {
   const db = firebase.database()
@@ -30,12 +32,14 @@ export default function TelaConfigurarLocais({ navigation }) {
 
   
   return (
-    <View style={Styles.containerPrincipal}>
-      <Text style={Styles.titulo}>{local.titulo}</Text>
-      <View style={Styles.containerDeDados}>
-        <View style={{flexDirection: 'row'}}>
-          <View style={Styles.containerDosDados}>
-            <View style={Styles.containerDropDown}>
+    <View style={theme.container}>
+      <View style={theme.header}>
+        <Text style={theme.text_header}>{local.titulo}</Text>
+      </View>
+      <View style={theme.content}>
+        <View style={{flexDirection: 'row', justifyContent:'space-between', alignItems: 'center'}}>
+          <View style={theme.dropdown}>
+            <View style={theme.dropdown}>
               <Dropdown
                 label='Bloco *'
                 value={bloco}
@@ -44,36 +48,36 @@ export default function TelaConfigurarLocais({ navigation }) {
               />
             </View>
           </View>
-          <TouchableOpacity style={Styles.containerBotaoPesquisar} onPress={()=>pesquisarPorBloco(`${bloco}`)}>
-            <FontAwesome name="search" size={35} color="#000000" />
+          <TouchableOpacity onPress={()=>pesquisarPorBloco(`${bloco}`)} style={theme.small_buttons}>
+            <FontAwesome name="search" style={theme.icon_actionbox} />
           </TouchableOpacity>
-          <TouchableOpacity style={Styles.containerBotaoRefresh} onPress={()=>refresh()}>
-            <FontAwesome name="refresh" size={35} color="#0d0da3" />
+          <TouchableOpacity onPress={()=>refresh()} style={theme.small_buttons}>
+            <FontAwesome name="refresh" style={theme.icon_actionbox}/>
           </TouchableOpacity>
-          <TouchableOpacity style={Styles.containerBotaoAdicionar} onPress={()=>navigation.navigate('TelaCadastrarLocal')}>
-            <FontAwesome name="plus" size={35} color="#1d8238" />
+          <TouchableOpacity onPress={()=>navigation.navigate('TelaCadastrarLocal')} style={theme.small_buttons}>
+            <FontAwesome name="plus" style={theme.icon_actionbox}/>
           </TouchableOpacity>
         </View>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        <TouchableOpacity onPress={()=>mudarReferencia('Estacionamentos', 'Estacionamento', 'locais_estacionamentos')} style={Styles.containerBotoesLocais}>
-            <FontAwesome5 name="parking" size={35} color="#000000" />
+        <View style={{flexDirection: 'row', alignItems: 'center', justifyContent:'space-evenly', marginTop: -20}}>
+        <TouchableOpacity onPress={()=>mudarReferencia('Estacionamentos', 'Estacionamento', 'locais_estacionamentos')} style={theme.small_buttons}>
+            <FontAwesome5 name="parking" style={theme.icon_actionbox} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={()=>mudarReferencia('Serviços', 'Serviços', 'locais_servicos')} style={Styles.containerBotoesLocais}>
-            <FontAwesome name="bullhorn" size={35} color="#919492" />
+          <TouchableOpacity onPress={()=>mudarReferencia('Serviços', 'Serviços', 'locais_servicos')} style={theme.small_buttons}>
+            <FontAwesome name="bullhorn" style={theme.icon_actionbox}/>
           </TouchableOpacity>
-          <TouchableOpacity onPress={()=>mudarReferencia('Entradas', 'Entradas', 'locais_entradas')} style={Styles.containerBotoesLocais}>
-            <FontAwesome name="arrow-circle-up" size={35} color="#6cb7f5" />
+          <TouchableOpacity onPress={()=>mudarReferencia('Entradas', 'Entradas', 'locais_entradas')} style={theme.small_buttons}>
+            <FontAwesome name="arrow-circle-up" style={theme.icon_actionbox} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={()=>mudarReferencia('Salas multiuso', 'Sala multiuso', 'locais_salas')} style={Styles.containerBotoesLocais}>
-            <MaterialCommunityIcons name="google-classroom" size={35} color="#edc453" />
+          <TouchableOpacity onPress={()=>mudarReferencia('Salas multiuso', 'Sala multiuso', 'locais_salas')} style={theme.small_buttons}>
+            <MaterialCommunityIcons name="google-classroom" style={theme.icon_actionbox} />
           </TouchableOpacity>
         </View>
         {loading && <ActivityIndicator size="large" color="#0000ff" />}
         <FlatList
           data={dados}
           renderItem={({ item }) => (
-            <View style={Styles.containerSalas}>
-              <View style={{flex: 3}}>
+            <View style={theme.subcontainer}>
+              <View style={{flex: 1}}>
                 <Text style={{fontSize: 20, fontWeight: 'bold', margin: 10}}>
                   Nome: {item.nomeLocal}
                 </Text>
@@ -98,22 +102,20 @@ export default function TelaConfigurarLocais({ navigation }) {
                 </MapView>
               </View>
               <View>
-                <TouchableOpacity style={{margin: 10}} onPress={()=>delLocal(item.key)}>
-                  <FontAwesome name="trash" size={25} color="#FF0000" />
+                <TouchableOpacity style={{margin: 15}} onPress={()=>delLocal(item.key)}>
+                  <FontAwesome name="trash" size={25} color="#000" />
                 </TouchableOpacity>
-                <TouchableOpacity style={{margin: 10}} onPress={()=>navigation.navigate('TelaEditarLocal', {tipoLocal: `${local.tipoLocal}`, key: item.key})}>
-                  <FontAwesome name="pencil" size={25} color="#39D716" />
+                <TouchableOpacity style={{margin: 15}} onPress={()=>navigation.navigate('TelaEditarLocal', {tipoLocal: `${local.tipoLocal}`, key: item.key})}>
+                  <FontAwesome name="pencil" size={25} color="#000" />
                 </TouchableOpacity>
               </View>
             </View>
           )}
           keyExtractor={(item, index) => `${index}`}
         />
-      </View>
-      <View>
-        <TouchableOpacity style={Styles.botaoDeSair} onPress={()=>navigation.navigate('TelaSGP')}>
-          <Text style={Styles.textoBotaoSair}>Retornar</Text>
-        </TouchableOpacity>
+        <View style={theme.logout}>
+          <ActionButton icon='arrow-circle-left' title='Voltar' link={()=>navigation.navigate('TelaSGP')}></ActionButton>
+        </View>
       </View>
 
     </View>

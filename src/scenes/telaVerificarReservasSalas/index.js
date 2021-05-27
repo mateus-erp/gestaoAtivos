@@ -4,6 +4,7 @@ import Constants from 'expo-constants';
 import firebase from 'firebase'
 import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons'; 
 
+import {theme} from '../../themes/darkTheme'
 
 export default function TelaVerificarReservasSalas({ navigation }) {
   const db = firebase.database()
@@ -12,23 +13,23 @@ export default function TelaVerificarReservasSalas({ navigation }) {
   const [dados, setDados] = useState([])
   const [loading, setLoading] = useState(false)
   const [email, setEmail] = useState('')
-  const [visualizacao, setVisualizacao] = useState({titulo: 'espera', tipo: 'Em análise', icone: 'eye-slash'})
+  const [visualizacao, setVisualizacao] = useState({titulo: 'Espera', tipo: 'Em análise', icone: 'eye-slash'})
     
   useEffect(() => {
     getReservas()
   }, [])
 
   return (
-    <View style={Styles.containerPrincipal}>
-      <View style={{flexDirection: 'row'}}>
-        <Text style={Styles.titulo}>Reservas</Text>
-        <TouchableOpacity style={Styles.containerBotaoRefresh} onPress={()=>refresh(visualizacao.tipo)}>
-          <FontAwesome name="refresh" size={35} color="#0d0da3" />
+    <View style={theme.container}>
+      <View style={theme.header}>
+        <Text style={theme.text_header}>Reservas</Text>
+        <TouchableOpacity style={theme.actionbox} onPress={()=>refresh(visualizacao.tipo)}>
+          <FontAwesome name="refresh" style={theme.icon_actionbox} />
         </TouchableOpacity>
       </View>
-      <View style={Styles.containerDeDados}>
+      <View style={theme.content}>
         <View style={{flexDirection: 'row'}}>
-          <View style={Styles.containerDosDados}>          
+          <View style={theme.textbox}>          
             <TextInput
               style={{height: 40}}
               placeholder="Email"
@@ -37,23 +38,23 @@ export default function TelaVerificarReservasSalas({ navigation }) {
               autoCapitalize={'none'}
             />
           </View>
-          <TouchableOpacity onPress={()=>pesquisarPorBloco(email)} style={Styles.containerBotaoPesquisar}>
-            <FontAwesome name="search" size={35} color="#000000" />
+          <TouchableOpacity onPress={()=>pesquisarPorBloco(email)} style={theme.actionbox}>
+            <FontAwesome name="search" style={theme.icon_actionbox} />
           </TouchableOpacity>
         </View>
-        <View style={{flexDirection: 'row'}}>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <View style={{flexDirection: 'row'}}>
-            <TouchableOpacity onPress={()=>navigation.navigate('TelaVerificarReservasEquipamentos')} style={Styles.containerBotaoEsquerdo}>
+            <TouchableOpacity onPress={()=>navigation.navigate('TelaVerificarReservasEquipamentos')}>
               <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-              <MaterialCommunityIcons name="projector" size={35} color="#000000" />
-              <Text style ={{margin: 5, fontSize: 17}}>Equipamentos</Text>
+              <MaterialCommunityIcons name="projector" style={theme.icon_actionbox}/>
+              <Text style ={theme.text_actionbox}>Equipamentos</Text>
               </View>
             </TouchableOpacity>
           </View>
-          <TouchableOpacity onPress={()=>mudarVisualizacao(visualizacao.tipo)} style={Styles.containerBotaoTudo}>
+          <TouchableOpacity onPress={()=>mudarVisualizacao(visualizacao.tipo)}>
             <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-              <FontAwesome name={visualizacao.icone} size={35} color="#000000" />
-              <Text style ={{margin: 5, fontSize: 17}}>{visualizacao.titulo}</Text>
+              <FontAwesome name={visualizacao.icone} style={theme.icon_actionbox}/>
+              <Text style ={theme.text_actionbox}>{visualizacao.titulo}</Text>
             </View>
           </TouchableOpacity>
         </View>

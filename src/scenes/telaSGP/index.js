@@ -23,10 +23,9 @@ export default function TelaSGP({ navigation }) {
           <ActionBox title="Cadastrar Equipamentos" icon="desktop" link={()=>navigation.navigate("")}></ActionBox>
         </View>
         <View style={theme.logout}>
-          <ActionButton icon='arrow-circle-left' title='Logout' link="TelaLogin"></ActionButton>
+          <ActionButton icon='arrow-circle-left' title='Logout' link={()=>navigation.navigate("TelaLogin")}></ActionButton>
         </View>
       </View>
-      
     </View>
   );
 }
