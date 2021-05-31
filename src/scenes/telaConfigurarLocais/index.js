@@ -2,12 +2,11 @@ import React, {useState, useEffect} from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, FlatList, ActivityIndicator, Alert, TextInput } from 'react-native';
 import Constants from 'expo-constants';
 import MapView, { Marker, Polyline } from 'react-native-maps'
-import { Dropdown } from 'react-native-material-dropdown-v2';
+import { Dropdown } from 'react-native-material-dropdown-v2-fixed';
 import firebase from 'firebase'
 import { FontAwesome, FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons'; 
 
 import {theme} from '../../themes/darkTheme'
-import ActionButton from '../../components/ActionButton'
 
 export default function TelaConfigurarLocais({ navigation }) {
   const db = firebase.database()
@@ -113,9 +112,6 @@ export default function TelaConfigurarLocais({ navigation }) {
           )}
           keyExtractor={(item, index) => `${index}`}
         />
-        <View style={theme.logout}>
-          <ActionButton icon='arrow-circle-left' title='Voltar' link={()=>navigation.navigate('TelaSGP')}></ActionButton>
-        </View>
       </View>
 
     </View>

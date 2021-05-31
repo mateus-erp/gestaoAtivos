@@ -1,10 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import { Text, View, ScrollView, StyleSheet, TextInput, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
 import Constants from 'expo-constants';
-import { Dropdown } from 'react-native-material-dropdown-v2';
+import { Dropdown } from 'react-native-material-dropdown-v2-fixed';
 import firebase from 'firebase'
 import { FontAwesome } from '@expo/vector-icons'; 
 
+import {theme} from '../../themes/darkTheme'
 
 export default function TelaCadastrarLocal({ navigation }) {
   const db = firebase.database()
@@ -46,96 +47,100 @@ export default function TelaCadastrarLocal({ navigation }) {
   ])
 
   return (
-    <View style={Styles.containerPrincipal}>
-      <Text style={Styles.titulo}>Cadastrar local</Text>
-      <ScrollView style={{maxHeight: '60%',  marginTop: 20, marginBottom: 15}}>
-        <View style={Styles.containerDropDown}>
-          <Dropdown
-            label='Tipo de local *'
-            value={local.tipoLocal}
-            data={dadosDropDownTipoLocal}
-            onChangeText={texto => setLocal({...local, tipoLocal: texto})}
-          />
-        </View>
-        <View style={Styles.containerDosDados}>
-          <TextInput
-            style={{height: 40}}
-            value={local.capacidade}
-            placeholder="Capacidade"
-            onChangeText={texto => setLocal({...local, capacidade: texto})}
-            maxLength={4}
-            keyboardType={'number-pad'}
-          />
-        </View>
-        <View style={Styles.containerDropDown}>
-          <Dropdown
-            label='Letra do bloco *'
-            value={local.bloco}
-            data={dadosDropDownBlocos}
-            onChangeText={texto => setLocal({...local, bloco: texto})}
-          />
-        </View>
-        <View style={Styles.containerDropDown}>
-          <Dropdown
-            label='Andar da local *'
-            value={local.andar}
-            data={dadosDropDownAndares}
-            onChangeText={texto => setLocal({...local, andar: texto})}
-          />
-        </View>
-        <View style={Styles.containerDosDados}>
-          <TextInput
-            style={{height: 40}}
-            value={local.nomeLocal}
-            placeholder="Nome do local *"
-            onChangeText={texto => setLocal({...local, nomeLocal: texto})}
-            maxLength={50}
-          />
-        </View>
-        <View style={Styles.containerDosDados}>
-          <TextInput
-            value={local.descricao}
-            placeholder="Descrição"
-            onChangeText={texto => setLocal({...local, descricao: texto})}
-            maxLength={115}
-            multiline={true}
-          />
-        </View>
-        <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-          <TouchableOpacity style={Styles.containerBotaoLocalizacao} onPress={()=>getLatitude()}>
-            <FontAwesome name="map-marker" size={25} color="#f21111" />
-          </TouchableOpacity>
-          <View style={Styles.containerDosDadosMetade}>
-            <TextInput
-              style={{height: 40, textAlign: 'center'}}
-              value={local.latitude}
-              placeholder="Latitude *"
-              keyboardType={'number-pad'}
-              maxLength={15}
-              onChangeText={texto => setLocal({...local, latitude: texto})}
+    <View style={theme.container}>
+      <View style={theme.header}>
+        <Text style={theme.text_header}>Cadastrar local</Text>
+      </View>
+      <View style={theme.content}>
+        <View style={{justifyContent:'flex-start', marginTop: 15}}>
+          <View style={Styles.containerDropDown}>
+            <Dropdown
+              label='Tipo de local *'
+              value={local.tipoLocal}
+              data={dadosDropDownTipoLocal}
+              onChangeText={texto => setLocal({...local, tipoLocal: texto})}
             />
           </View>
-          <View style={Styles.containerDosDadosMetade}>
+          <View style={Styles.containerDosDados}>
             <TextInput
-              style={{height: 40, textAlign: 'center'}}
-              value={local.longitude}
-              placeholder="Longitude *"
-              maxLength={15}
-              onChangeText={texto => setLocal({...local, longitude: texto})}
+              style={{height: 40}}
+              value={local.capacidade}
+              placeholder="Capacidade"
+              onChangeText={texto => setLocal({...local, capacidade: texto})}
+              maxLength={4}
               keyboardType={'number-pad'}
             />
           </View>
-          <TouchableOpacity style={Styles.containerBotaoLocalizacao} onPress={()=>getLongitude()}>
-            <FontAwesome name="map-marker" size={25} color="#f21111" />
-          </TouchableOpacity>
+          <View style={Styles.containerDropDown}>
+            <Dropdown
+              label='Letra do bloco *'
+              value={local.bloco}
+              data={dadosDropDownBlocos}
+              onChangeText={texto => setLocal({...local, bloco: texto})}
+            />
+          </View>
+          <View style={Styles.containerDropDown}>
+            <Dropdown
+              label='Andar do local *'
+              value={local.andar}
+              data={dadosDropDownAndares}
+              onChangeText={texto => setLocal({...local, andar: texto})}
+            />
+          </View>
+          <View style={Styles.containerDosDados}>
+            <TextInput
+              style={{height: 40}}
+              value={local.nomeLocal}
+              placeholder="Nome do local *"
+              onChangeText={texto => setLocal({...local, nomeLocal: texto})}
+              maxLength={50}
+            />
+          </View>
+          <View style={Styles.containerDosDados}>
+            <TextInput
+              value={local.descricao}
+              placeholder="Descrição"
+              onChangeText={texto => setLocal({...local, descricao: texto})}
+              maxLength={115}
+              multiline={true}
+            />
+          </View>
+          <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+            <TouchableOpacity style={Styles.containerBotaoLocalizacao} onPress={()=>getLatitude()}>
+              <FontAwesome name="map-marker" size={25} color="#f21111" />
+            </TouchableOpacity>
+            <View style={Styles.containerDosDadosMetade}>
+              <TextInput
+                style={{height: 40, textAlign: 'center'}}
+                value={local.latitude}
+                placeholder="Latitude *"
+                keyboardType={'number-pad'}
+                maxLength={15}
+                onChangeText={texto => setLocal({...local, latitude: texto})}
+              />
+            </View>
+            <View style={Styles.containerDosDadosMetade}>
+              <TextInput
+                style={{height: 40, textAlign: 'center'}}
+                value={local.longitude}
+                placeholder="Longitude *"
+                maxLength={15}
+                onChangeText={texto => setLocal({...local, longitude: texto})}
+                keyboardType={'number-pad'}
+              />
+            </View>
+            <TouchableOpacity style={Styles.containerBotaoLocalizacao} onPress={()=>getLongitude()}>
+              <FontAwesome name="map-marker" size={25} color="#f21111" />
+            </TouchableOpacity>
+          </View>
         </View>
-      </ScrollView>
-      <View style={Styles.botaoContainer}>
-        <TouchableOpacity style={Styles.botaoAcessar} onPress={()=>navigation.goBack()}>
-          <Text style={Styles.textoBotaoAcessar}>Retornar</Text>
+      </View>
+      <View style={{flexDirection: 'row', marginTop: -100, justifyContent: 'space-evenly'}}>
+        <TouchableOpacity style={theme.usual_button} onPress={()=>navigation.goBack()}>
+          <Text style={theme.text_usual_button}>Retornar</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={Styles.botaoCadastrar} onPress={()=>inserirNovoLocal()}>
-          <Text style={Styles.textoBotaoCadastrar}>Cadastrar</Text>
+        <TouchableOpacity style={theme.usual_button} onPress={()=>inserirNovoLocal()}>
+          <Text style={theme.text_usual_button}>Cadastrar</Text>
         </TouchableOpacity>
       </View>
       {loading && <ActivityIndicator animating={loading} size="large" color="#0000ff" />}
@@ -256,13 +261,6 @@ export default function TelaCadastrarLocal({ navigation }) {
 }
 
 const Styles = StyleSheet.create({
-  containerPrincipal: {
-    flex: 1,
-    paddingTop: Constants.statusBarHeight,
-    backgroundColor: 'white',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   containerBotaoLocalizacao: {
     width: 40,
     height: 40,
@@ -293,13 +291,6 @@ const Styles = StyleSheet.create({
       resizeMode: 'contain',
       alignSelf: 'center',
   },
-  titulo: {
-    fontSize: 30,
-    color: '#02246c',
-    fontWeight: 'bold',
-    alignSelf: 'center',
-    justifyContent: 'center',
-  },
   containerDosDados: {
     margin: 10,
     borderBottomWidth: 2,
@@ -321,33 +312,6 @@ const Styles = StyleSheet.create({
     width: 300,
     alignSelf: 'center',
   },
-  textoBotaoAcessar: {
-    fontSize: 20,
-    color: 'white',
-    fontWeight: 'bold',
-  },
-  textoBotaoCadastrar: {
-    fontSize: 20,
-    color: 'white',
-    fontWeight: 'bold',
-  },
-  botaoCadastrar: {
-    width: 160,
-    height: 50,
-    backgroundColor: '#337861',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 15,
-    margin: 5,
-  },
-  botaoAcessar: {
-    width: 160,
-    height: 50,
-    backgroundColor: '#002566',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 15,
-    margin: 5,
-  },
+  
 });
 

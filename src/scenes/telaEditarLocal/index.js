@@ -1,9 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import { Text, View, ScrollView, StyleSheet, Geolocation, TextInput, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
 import Constants from 'expo-constants';
-import { Dropdown } from 'react-native-material-dropdown-v2';
+import { Dropdown } from 'react-native-material-dropdown-v2-fixed';
 import firebase from 'firebase'
 import { FontAwesome } from '@expo/vector-icons'; 
+
+import {theme} from '../../themes/darkTheme'
 
 
 export default function TelaEditarLocal({ navigation, route }) {
@@ -44,10 +46,13 @@ export default function TelaEditarLocal({ navigation, route }) {
   }, [])
 
   return (
-    <View style={Styles.containerPrincipal}>
-      <Text style={Styles.titulo}>Editar local</Text>
-      <ScrollView style={{maxHeight: '60%',  marginTop: 20, marginBottom: 15}}>
-      <View style={Styles.containerDosDados}>
+    <View style={theme.container}>
+      <View style={theme.header}>
+        <Text style={theme.text_header}>Editar local</Text>
+      </View>
+      <View style={theme.content}>
+        <View style={{justifyContent: 'flex-start'}}>
+        <View style={Styles.containerDosDados}>
           <TextInput
             style={{height: 40}}
             value={local.capacidade}
@@ -119,14 +124,15 @@ export default function TelaEditarLocal({ navigation, route }) {
             <FontAwesome name="map-marker" size={25} color="#f21111" />
           </TouchableOpacity>
         </View>
-      </ScrollView>
-      <View style={Styles.botaoContainer}>
-        <TouchableOpacity style={Styles.botaoAcessar} onPress={()=>navigation.goBack()}>
-          <Text style={Styles.textoBotaoAcessar}>Retornar</Text>
+      </View>
+      <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
+        <TouchableOpacity style={theme.usual_button} onPress={()=>navigation.goBack()}>
+          <Text style={theme.text_usual_button}>Retornar</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={Styles.botaoCadastrar} onPress={()=>atualizarLocal()}>
-          <Text style={Styles.textoBotaoCadastrar}>Editar</Text>
+        <TouchableOpacity style={theme.usual_button} onPress={()=>atualizarLocal()}>
+          <Text style={theme.text_usual_button}>Editar</Text>
         </TouchableOpacity>
+      </View>
       </View>
       {loading && <ActivityIndicator animating={loading} size="large" color="#0000ff" />}
     </View>

@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import { Text, View, ScrollView, StyleSheet, Image, TextInput, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
 import Constants from 'expo-constants';
-import { Dropdown } from 'react-native-material-dropdown-v2';
+import { Dropdown } from 'react-native-material-dropdown-v2-fixed';
 import firebase from 'firebase'
 
+import {theme} from '../../themes/darkTheme'
 
 export default function TelaCadastrarColaborador({ navigation }) {
   const db = firebase.database()
@@ -19,9 +20,12 @@ export default function TelaCadastrarColaborador({ navigation }) {
   ])
 
   return (
-    <View style={Styles.containerPrincipal}>
-      <Text style={Styles.titulo}>Novo cadastro</Text>
-      <ScrollView style={{maxHeight: '35%', margin:30}}>
+    <View style={theme.container}>
+      <View style={theme.header}>
+        <Text style={theme.text_header}>Novo cadastro</Text>
+      </View>
+      <View style={theme.content}>
+        <View style={{justifyContent:'flex-start', marginTop: 15}}>
         <View style={Styles.containerDropDown}>
           <Dropdown
             label='Tipo de colaborador'
@@ -71,16 +75,17 @@ export default function TelaCadastrarColaborador({ navigation }) {
             secureTextEntry={true}
           />
         </View>
-      </ScrollView>
+      </View>
       <View style={Styles.botaoContainer}>
-        <TouchableOpacity style={Styles.botaoAcessar} onPress={()=>navigation.navigate('TelaSGP')}>
-          <Text style={Styles.textoBotaoAcessar}>Retornar</Text>
+        <TouchableOpacity style={theme.usual_button} onPress={()=>navigation.navigate('TelaSGP')}>
+          <Text style={theme.text_usual_button}>Retornar</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={Styles.botaoCadastrar} onPress={()=>inserirNovoUsuario()}>
-          <Text style={Styles.textoBotaoCadastrar}>Cadastrar</Text>
+        <TouchableOpacity style={theme.usual_button} onPress={()=>inserirNovoUsuario()}>
+          <Text style={theme.text_usual_button}>Cadastrar</Text>
         </TouchableOpacity>
       </View>
       {loading && <ActivityIndicator animating={loading} size="large" color="#0000ff" />}
+    </View>
     </View>
   );
 

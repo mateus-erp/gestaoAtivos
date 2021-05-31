@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { Text, View, ScrollView, StyleSheet, TextInput, TouchableOpacity, Alert, ActivityIndicator, AsyncStorage } from 'react-native';
 import Constants from 'expo-constants';
 import DatePicker from 'react-native-datepicker'
-import { Dropdown } from 'react-native-material-dropdown-v2';
+import { Dropdown } from 'react-native-material-dropdown-v2-fixed';
 import firebase from 'firebase'
 
 

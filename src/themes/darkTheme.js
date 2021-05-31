@@ -33,13 +33,29 @@ export const theme = {
     text_header:{
         color: branco,
         fontSize: 28,
+        fontWeight: 'bold',
     },
     content: {
         backgroundColor: branco,
         borderTopLeftRadius: 35,
         padding: 10,
+        paddingBottom: 40,
         justifyContent: 'space-between',
         height: Dimensions.get('window').height-60,
+    },
+    text_usual_button: {
+        fontSize: 20,
+        color: branco,
+        fontWeight: 'bold',
+    },
+    usual_button: {
+        width: 160,
+        height: 50,
+        backgroundColor: roxo,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 15,
+        margin: 5,
     },
     text_content: {
         color: escuro,
