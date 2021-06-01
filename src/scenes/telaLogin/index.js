@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { Text, View, StyleSheet, TextInput, TouchableOpacity, Alert, AsyncStorage, StatusBar } from 'react-native';
+import { ActivityIndicator, View, Text, Alert, AsyncStorage } from 'react-native';
 import { Button } from 'react-native-paper'
 import firebase from 'firebase'
 import { roxo, cinza, branco, claro, escuro } from '../cores';
@@ -13,16 +13,29 @@ export default function TelaLogin({ navigation }) {
   const db = firebase.database()
   const ref = db.ref('usuarios')
 
-  const [usuario, setUsuario] = useState({email: '', senha: '', tipoDeColaborador: ''})
-  const [loading, setLoading] = useState(false)
+  const [usuario, setUsuario] = useState({email: '', senha: '', tipoDeColaborador: ''});
+  const [loading, setLoading] = useState(false);
+  const [animating, setAnimating] = useState({load: false});
+
+  const Carregamento = () => {
+    return (
+    <View style={{ zIndex: 1, position: 'absolute', padding: 100, alignSelf: 'center' }}>
+        <ActivityIndicator animating={animating.load} size="large" color={claro} />
+    </View>
+    )
+  }
+
 
   useEffect(() => {
     limparDados()
   }, [])
 
+  console.log(animating.load)
+
   return (
     <CustomContainer>
       <CustomHeader />
+      { animating.load ? <Carregamento /> : null}
       <View>
         <CustomInput 
           title="Email"
@@ -53,6 +66,7 @@ export default function TelaLogin({ navigation }) {
           onPress={() => navigation.navigate('TelaResetarSenha')}
         />
       </View>
+      
     </CustomContainer>
   )
 
@@ -75,8 +89,12 @@ export default function TelaLogin({ navigation }) {
   }
 
   async function metodoLogin(){
+    setAnimating({ load: true });
     setLoading(true)
     cadastrarNoAuth()
+    setTimeout(() => {
+      console.log("carregando...");
+    }, 2000);
   }
 
   async function cadastrarNoAuth(){
@@ -89,6 +107,7 @@ export default function TelaLogin({ navigation }) {
       })
       .catch(function(error){
         console.log(error)
+        setAnimating({email: false});
         Alert.alert('Atenção', 'Usuário não encontrado')
       })
   }
@@ -104,6 +123,7 @@ export default function TelaLogin({ navigation }) {
       }else{
         datalist = []
         limparDados()
+        setAnimating({ email: false });
         Alert.alert('Atenção', 'Tipo de colaborador não identificado')
       }
   }
@@ -111,12 +131,16 @@ export default function TelaLogin({ navigation }) {
   function irParaHome(tipoDeColaborador){
     guardarNoAsync()
       if(tipoDeColaborador=='Aluno'){
+        setAnimating({email: false});
         navigation.navigate('TelaAluno')
       }else if(tipoDeColaborador=='Professor'){
+        setAnimating({email: false});
         navigation.navigate('TelaProfessor')
       }else if(tipoDeColaborador=='SGP'){
+        setAnimating({email: false});
         navigation.navigate('TelaSGP')
       }else{
+        setAnimating({email: false});
         Alert.alert('Atenção', 'Tipo de usuário não identicado')
       }
     limparDados()
@@ -129,59 +153,4 @@ export default function TelaLogin({ navigation }) {
 
 }
 
-const Styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: branco,
-  },
-
-  header: {
-    backgroundColor: roxo,
-    height: 200,
-  },
-
-  subHeader1: {
-    height: 150,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
-  title: {
-    color: claro,
-    fontSize: 30,
-  },
-
-  subHeader2: {
-    backgroundColor: branco,
-    height: 50,
-    borderTopLeftRadius: 100,
-  },
-
-  form: {
-    margin: 20,
-    padding: 10,
-    borderRadius: 10,
-    backgroundColor: claro,
-  },
-
-  input: {
-    height: 40,
-    backgroundColor: claro,
-  },
-
-  bottom: {
-    margin: 20,
-    backgroundColor: roxo,
-    borderRadius: 5,
-    padding: 5,
-    borderTopRightRadius: 0,
-    borderBottomRightRadius: 15,
-    borderTopLeftRadius: 15,
-    borderBottomLeftRadius: 15,
-  },
-
-  fotter: {
-    alignItems: 'center',
-  },
-});
 
