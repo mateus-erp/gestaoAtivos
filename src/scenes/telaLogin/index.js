@@ -92,9 +92,6 @@ export default function TelaLogin({ navigation }) {
     setAnimating({ load: true });
     setLoading(true)
     cadastrarNoAuth()
-    setTimeout(() => {
-      console.log("carregando...");
-    }, 2000);
   }
 
   async function cadastrarNoAuth(){
