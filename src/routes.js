@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import {StatusBar} from 'react-native';
 
 const Stack = createStackNavigator();
 
@@ -29,6 +30,7 @@ import TelaEditarLocal from './scenes/telaEditarLocal'
 export function Route(props){
     return(
         <NavigationContainer>
+            <StatusBar />
             <Stack.Navigator headerMode={"none"}>
                 <Stack.Screen name="TelaLogin" component={TelaLogin} />
                 <Stack.Screen name="TelaLocalizarSala" component={TelaLocalizarSala} />

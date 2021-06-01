@@ -2,7 +2,12 @@ import React, {useState, useEffect} from 'react';
 import { Text, View, StyleSheet, TextInput, TouchableOpacity, Alert, AsyncStorage, StatusBar } from 'react-native';
 import { Button } from 'react-native-paper'
 import firebase from 'firebase'
-import { roxo, cinza, branco, claro, escuro } from '../cores'
+import { roxo, cinza, branco, claro, escuro } from '../cores';
+import { CustomContainer } from '../../components/CustomContainer';
+import { CustomHeader } from '../../components/CustomHeader';
+import { CustomButton } from '../../components/CustomButton';
+import { CustomLink } from '../../components/CustomLink';
+import { CustomInput } from '../../components/CustomInput';
 
 export default function TelaLogin({ navigation }) {
   const db = firebase.database()
@@ -16,43 +21,39 @@ export default function TelaLogin({ navigation }) {
   }, [])
 
   return (
-    <View style={Styles.container}>
-      <View style={Styles.header}>
-        <View style={Styles.subHeader1}>
-          <Text style={Styles.title}>Sign In</Text>
-        </View>
-        <View style={Styles.subHeader2}></View>
-      </View>
+    <CustomContainer>
+      <CustomHeader />
       <View>
-        <View style={Styles.form}>
-          <Text>Email</Text>
-          <TextInput
-            style={Styles.input}
-            placeholder="contact@gmail.com"
-            keyboardType={'email-address'}
-            autoCapitalize='none'
-            value={usuario.email}
-            onChangeText={texto => setUsuario({...usuario, email: texto})}
-          />
-        </View>
-        <View style={Styles.form}>
-          <Text>Password</Text>
-          <TextInput
-            style={Styles.input}
-            placeholder="*******"
-            keyboardType={'numeric'}
-            secureTextEntry={true}
-            value={usuario.senha}
-            onChangeText={texto => setUsuario({ ...usuario, senha: texto })}
-          />
-        </View>
-        <Button style={Styles.bottom} mode="outlined" onPress={() => metodoLogin()}><Text style={{ color: claro }}>Login</Text></Button>
-        <TouchableOpacity style={Styles.fotter} onPress={() => navigation.navigate('TelaResetarSenha')}>
-          <Text>Don't have any account? <Text style={{ color: roxo}}>Sign Up</Text></Text>
-        </TouchableOpacity>
+        <CustomInput 
+          title="Email"
+          placeholder="contato@gmail.com"
+          keyboardType={'email-address'}
+          autoCapitalize='none'
+          value={usuario.email}
+          onChangeText={texto => setUsuario({...usuario, email: texto})}
+        />
+
+        <CustomInput
+          title="Senha"
+          placeholder="*******"
+          keyboardType={'numeric'}
+          secureTextEntry={true}
+          value={usuario.senha}
+          onChangeText={texto => setUsuario({ ...usuario, senha: texto })}
+        />
+
+        <CustomButton
+          title="Entrar"
+          onPress={() => metodoLogin()}
+        />
+
+        <CustomLink
+          title="Esqueceu sua senha? "
+          strong="Recuperar"
+          onPress={() => navigation.navigate('TelaResetarSenha')}
+        />
       </View>
-      <StatusBar/>
-    </View>
+    </CustomContainer>
   )
 
   async function guardarNoAsync(){
