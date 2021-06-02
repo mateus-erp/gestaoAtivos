@@ -1,91 +1,56 @@
 import React, {useState, useEffect} from 'react';
-import { Text, View, ScrollView, StyleSheet, TextInput, TouchableOpacity, Alert, ActivityIndicator, AsyncStorage } from 'react-native';
+import {TextInput, View, StyleSheet, Alert, AsyncStorage } from 'react-native';
 import Constants from 'expo-constants';
-import DatePicker from 'react-native-datepicker'
-import { Dropdown } from 'react-native-material-dropdown-v2-fixed';
 import firebase from 'firebase'
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
+import { CustomContainer } from '../../components/CustomContainer';
+import { CustomHeader } from '../../components/CustomHeader';
+import { CustomButton } from '../../components/CustomButton';
+import { CustomLink } from '../../components/CustomLink';
+import { CustomInput } from '../../components/CustomInput';
+import { CustomField } from '../../components/CustomField';
+import { CustomDateTime } from '../../components/CustomDateTime';
 
 export default function TelaCadastrarAgendaAluno({ navigation }) {
-  const db = firebase.database()
-  const ref = db.ref('agendas')
+  const db = firebase.database();
+  const ref = db.ref('agendas');
 
-  const [agenda, setAgenda] = useState({dono: '', disciplina: '', sala: '', professor: '', dias: '', horario: ''})
-  const [loading, setLoading] = useState(false)
-  const [dadosDropDownSalas, setDadosDropDownSalas] = useState([])
+  const [agenda, setAgenda] = useState({dono: '', disciplina: '', sala: '', professor: '', dias: '', horario: ''});
+  const [loading, setLoading] = useState(false);
+  const [dadosDropDownSalas, setDadosDropDownSalas] = useState([]);
 
   useEffect(()=> {
     getSalas()
     getEmail()
-  }, [])
+  }, []);
 
   return (
-    <View style={Styles.containerPrincipal}>
-      <Text style={Styles.titulo}>Nova anotação</Text>
-      <ScrollView style={{maxHeight: 310, margin:30}}>
-        <View style={{margin: 5, alignSelf: 'center'}}>
-            <DatePicker
-                style={{width: 200}}
-                date={agenda.horario}
-                mode="time"
-                placeholder="Horário"
-                format="HH:mm"
-                is24Hour={true}
-                showIcon={false}
-                confirmBtnText="Confirmar"
-                cancelBtnText="Cancelar"
-                onDateChange={texto => setAgenda({...agenda, horario: texto})}
-            />
-        </View>
-        <View style={Styles.containerDosDados}>
-          <TextInput
-            style={{height: 40}}
-            value={agenda.dias}
-            placeholder="Dias da semana"
-            onChangeText={texto => setAgenda({...agenda, dias: texto})}
-            autoCapitalize={'sentences'}
-            maxLength={50}
-          />
-        </View>
-        <View style={Styles.containerDosDados}>
-          <TextInput
-            style={{height: 40}}
-            value={agenda.disciplina}
-            placeholder="Disciplina"
-            onChangeText={texto => setAgenda({...agenda, disciplina: texto})}
-            autoCapitalize={'sentences'}
-            maxLength={50}
-          />
-        </View>
-        <View style={Styles.containerDropDown}>
-          <Dropdown
-            label='Sala'
-            data={dadosDropDownSalas}
-            onChangeText={texto => setAgenda({...agenda, sala: texto})}
-          />
-        </View>
-        <View style={Styles.containerDosDados}>
-          <TextInput
-            style={{height: 40}}
-            value={agenda.professor}
-            placeholder="Professor"
-            onChangeText={texto => setAgenda({...agenda, professor: texto})}
-            autoCapitalize={'sentences'}
-            maxLength={20}
-          />
-        </View>
-      </ScrollView>
-      <View style={Styles.botaoContainer}>
-        <TouchableOpacity style={Styles.botaoAcessar} onPress={()=>navigation.goBack()}>
-          <Text style={Styles.textoBotaoAcessar}>Retornar</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={Styles.botaoCadastrar} onPress={()=>inserirNovaAgenda()}>
-          <Text style={Styles.textoBotaoCadastrar}>Cadastrar</Text>
-        </TouchableOpacity>
+    <CustomContainer>
+      <CustomHeader />
+      <View>
+        <CustomDateTime 
+          title="Data"
+          type="date"
+        />
+
+        <CustomDateTime
+          title="Horário"
+          type="time"
+        />
+
+        <CustomButton
+          title="Cadastrar"
+        />
+
+        <CustomLink
+          title="Voltar"
+          onPress={() => navigation.navigate('TelaAluno')}
+        />
       </View>
-      {loading && <ActivityIndicator animating={loading} size="large" color="#0000ff" />}
-    </View>
-  )
+
+    </CustomContainer>
+  );
 
   async function getSalas(){
     const ref = db.ref('locais_salas')

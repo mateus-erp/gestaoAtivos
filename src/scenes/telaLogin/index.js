@@ -1,8 +1,7 @@
 import React, {useState, useEffect} from 'react';
-import { ActivityIndicator, View, Text, Alert, AsyncStorage } from 'react-native';
-import { Button } from 'react-native-paper'
+import { ActivityIndicator, View, Alert, AsyncStorage } from 'react-native';
 import firebase from 'firebase'
-import { roxo, cinza, branco, claro, escuro } from '../cores';
+import { claro } from '../cores';
 import { CustomContainer } from '../../components/CustomContainer';
 import { CustomHeader } from '../../components/CustomHeader';
 import { CustomButton } from '../../components/CustomButton';
@@ -10,8 +9,8 @@ import { CustomLink } from '../../components/CustomLink';
 import { CustomInput } from '../../components/CustomInput';
 
 export default function TelaLogin({ navigation }) {
-  const db = firebase.database()
-  const ref = db.ref('usuarios')
+  const db = firebase.database();
+  const ref = db.ref('usuarios');
 
   const [usuario, setUsuario] = useState({email: '', senha: '', tipoDeColaborador: ''});
   const [loading, setLoading] = useState(false);
@@ -29,8 +28,6 @@ export default function TelaLogin({ navigation }) {
   useEffect(() => {
     limparDados()
   }, [])
-
-  console.log(animating.load)
 
   return (
     <CustomContainer>
