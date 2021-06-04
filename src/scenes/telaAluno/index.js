@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 import { theme } from '../../themes/darkTheme'
 import ActionBox from '../../components/ActionBox'
 
-export default function TelaSGP({ navigation }) {
+export default function TelaAluno({ navigation }) {
   return (
     <View style={theme.container}>
       <View style={theme.header}>
