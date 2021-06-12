@@ -5,6 +5,10 @@ import DatePicker from 'react-native-datepicker'
 import { Dropdown } from 'react-native-material-dropdown-v2-fixed';
 import firebase from 'firebase'
 
+import {theme} from '../../themes/darkTheme'
+
+import { CustomDate } from '../../components/CustomDate';
+import { CustomTime } from '../../components/CustomTime';
 
 export default function TelaEditarAgendaAluno({ navigation, route }) {
   const db = firebase.database()
@@ -20,37 +24,103 @@ export default function TelaEditarAgendaAluno({ navigation, route }) {
     getAgenda()
   }, [])
 
+  const [isDateVisible, setDateVisibility] = useState(false);
+  const [isTimeVisible, setTimeVisibility] = useState(false);
+  const [hora, setHorario] = useState("");
+  const [date, setDate] = useState("");
+  
+  useEffect(()=> {
+    getSalas()
+    getEmail()
+  }, []);
+
+  const showDatePicker = () => {
+    setDateVisibility(true);
+  };
+
+  const showTimePicker = () => {
+    setTimeVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDateVisibility(false);
+  };
+
+  const hideTimePicker = () => {
+    setTimeVisibility(false);
+  };
+
+  const handleConfirm = (data) => {
+    Data(data);
+    hideDatePicker();
+  };
+
+  const handleConfirmTime = (data) => {
+    horario(data)
+    hideTimePicker();
+  };
+
+  function horario(data) {
+    let horas = data.getHours().toString();
+    let minutos = data.getMinutes().toString();
+    let segundos = data.getSeconds().toString();
+    let dataTime = "";
+
+    { horas.length === 2 ? null : horas = "0" + horas }
+    { minutos.length === 2 ? null : minutos = "0" + minutos }
+    { segundos.length === 2 ? null : segundos = "0" + segundos }
+
+    dataTime = horas + ":" + minutos + ":" + segundos
+    setHorario(dataTime);
+    setAgenda({ ...agenda, horario: dataTime })
+  }
+
+  function Data(data) {
+    let ano = data.getFullYear().toString();
+    let mes = data.getMonth().toString();
+    let dia = data.getDate().toString();
+    let dataFormatada = "";
+
+    { mes.length === 2 ? null : mes = "0" + mes }
+    { dia.length === 2 ? null : dia = "0" + dia }
+
+    dataFormatada = dia + "/" + mes + "/" + ano
+    setDate(dataFormatada);
+    setAgenda({...agenda, dias: dataFormatada })
+  }
+
+
   return (
-    <View style={Styles.containerPrincipal}>
-      <Text style={Styles.titulo}>Editar anotação</Text>
-      <ScrollView style={{maxHeight: 250, margin:30}}>
-      <View style={{margin: 5, alignSelf: 'center'}}>
-            <DatePicker
-                style={{width: 200}}
-                date={agenda.horario}
-                mode="time"
-                placeholder="Horário"
-                format="HH:mm"
-                is24Hour={true}
-                showIcon={false}
-                confirmBtnText="Confirmar"
-                cancelBtnText="Cancelar"
-                onDateChange={texto => setAgenda({...agenda, horario: texto})}
-            />
-        </View>
-        <View style={Styles.containerDosDados}>
-          <TextInput
-            style={{height: 40}}
-            value={agenda.dias}
-            placeholder="Dias da semana"
-            onChangeText={texto => setAgenda({...agenda, dias: texto})}
-            autoCapitalize={'sentences'}
-            maxLength={50}
+    <View style={theme.container}>
+      <View style={theme.header}>
+        <Text style={theme.text_header}>Editar anotação</Text>
+      </View>
+      <View style={theme.content}>
+        <View>
+        <View style={{margin: 5, flexDirection: 'row'}}>
+          <CustomDate
+            onPress={showDatePicker}
+            title="Data"
+            type="date"
+            placeholder="Informe a Data"
+            isVisible={isDateVisible}
+            onConfirm={handleConfirm}
+            onCancel={hideDatePicker}
+            value={agenda.date}
           />
+        <CustomTime
+          onPress={showTimePicker}
+          title="Horário"
+          type="time"
+          placeholder="Informe o Horário"
+          isVisible={isTimeVisible}
+          onConfirm={handleConfirmTime}
+          onCancel={hideDatePicker}
+          value={agenda.hora}
+        />
         </View>
         <View style={Styles.containerDosDados}>
           <TextInput
-            style={{height: 40}}
             value={agenda.disciplina}
             placeholder="Disciplina"
             onChangeText={texto => setAgenda({...agenda, disciplina: texto})}
@@ -65,16 +135,17 @@ export default function TelaEditarAgendaAluno({ navigation, route }) {
             onChangeText={texto => setAgenda({...agenda, sala: texto})}
           />
         </View>
-      </ScrollView>
-      <View style={Styles.botaoContainer}>
-        <TouchableOpacity style={Styles.botaoAcessar} onPress={()=>navigation.goBack()}>
-          <Text style={Styles.textoBotaoAcessar}>Retornar</Text>
+        </View>
+        <View style={Styles.botaoContainer}>
+        <TouchableOpacity style={theme.usual_button} onPress={()=>navigation.goBack()}>
+          <Text style={theme.text_usual_button}>Retornar</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={Styles.botaoCadastrar} onPress={()=>editarAnotacao()}>
-          <Text style={Styles.textoBotaoCadastrar}>Editar</Text>
+        <TouchableOpacity style={theme.usual_button} onPress={()=>editarAnotacao()}>
+          <Text style={theme.text_usual_button}>Salvar</Text>
         </TouchableOpacity>
       </View>
       {loading && <ActivityIndicator animating={loading} size="large" color="#0000ff" />}
+      </View>
     </View>
   )
 

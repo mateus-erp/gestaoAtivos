@@ -3,6 +3,9 @@ import { Text, View, ScrollView, StyleSheet, Alert, FlatList, Image, TouchableOp
 import Constants from 'expo-constants';
 import firebase from 'firebase'
 import { FontAwesome } from '@expo/vector-icons'; 
+import Icon from 'react-native-vector-icons/FontAwesome'
+
+import {theme} from '../../themes/darkTheme'
 
 export default function TelaProfessor({ navigation }) {
   const db = firebase.database()
@@ -14,13 +17,13 @@ export default function TelaProfessor({ navigation }) {
   const [loading, setLoading] = useState(false)
 
   return (
-    <View style={Styles.containerPrincipal}>
+    <View style={theme.container}>
       <Modal
         animationType="slide"
         transparent={true}
         visible={modalVisible}>
         <View style={Styles.containerModal}>
-          <TouchableOpacity onPress={()=>setModalVisible(false)} style={Styles.containerBotaoFecharModal}>
+          <TouchableOpacity onPress={()=>setModalVisible(false)}>
             <FontAwesome name="close" size={35} color="#fff" />
           </TouchableOpacity>
           <TouchableOpacity onPress={()=>adicionarDados()} style={Styles.containerBotaoAdicionar}>
@@ -81,36 +84,39 @@ export default function TelaProfessor({ navigation }) {
           </View>
         </View>
       </Modal>
-      <View style={Styles.imagemContainer}>
-        <Image
-          style={Styles.redimensionarLogo}
-          source={require('../../../assets/professor.png')}
-        />
-        <Image
-          style={Styles.redimensionarLogo}
-          source={require('../../../assets/logo.png')}
-        />
+
+      <View style={theme.header}>
+        <Text style={theme.text_header}>Bem-vindo</Text>
+        <Icon name= 'graduation-cap' style={{color: '#fff', fontSize: 35, alignSelf: 'center'}}></Icon>
       </View>
 
-      <Text style={Styles.titulo}>{"Gestão de Ativos"}</Text>
-
-      <ScrollView style={Styles.botaoContainer}>
-        <TouchableOpacity style={Styles.botoesSuperiores} onPress={()=>abrirAgenda()}>
-          <Text style={Styles.textoBotoesSuperiores}>Minha agenda</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={Styles.botoesSuperiores} onPress={()=>navigation.navigate('TelaLocalizarSala')}>
-          <Text style={Styles.textoBotoesSuperiores}>Localizar sala</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={Styles.botoesSuperiores} onPress={()=>navigation.navigate('TelaSolicitacaoReservasEquipamentos')}>
-          <Text style={Styles.textoBotoesSuperiores}>Reservas</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={Styles.botoesSuperiores} onPress={()=>Alert.alert('Atenção','Em construção, volte mês que vem!')}>
-          <Text style={Styles.textoBotoesSuperiores}>Chat</Text>
+      <View style={theme.content}>
+        <View style={theme.buttons}>
+          <TouchableOpacity style={theme.actionbox} onPress={()=>abrirAgenda()}>
+            <View style={theme.icon_actionbox}>
+              <Icon name='book' style={theme.icon_actionbox}></Icon>
+            </View>
+            <Text style={theme.text_actionbox}>Minha agenda</Text>
           </TouchableOpacity>
-      </ScrollView>
-      <TouchableOpacity style={Styles.botaoDeSair} onPress={()=>navigation.navigate('TelaLogin')}>
-        <Text style={Styles.textoBotaoSair}>Sair</Text>
-      </TouchableOpacity>
+          <TouchableOpacity style={theme.actionbox} onPress={()=>navigation.navigate('TelaLocalizarSala')}>
+            <View style={theme.icon_actionbox}>
+              <Icon name='home' style={theme.icon_actionbox}></Icon>
+            </View>
+            <Text style={theme.text_actionbox}>Localizar sala</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={theme.actionbox} onPress={()=>navigation.navigate('TelaSolicitacaoReservasEquipamentos')}>
+            <View style={theme.icon_actionbox}>
+            <FontAwesome name="key" style={theme.icon_actionbox}/>
+            </View>
+            <Text style={theme.text_actionbox}>Reservas</Text>
+          </TouchableOpacity>
+        </View>
+      <View style={theme.logout}>
+        <TouchableOpacity style={theme.actionbutton} onPress={()=>navigation.navigate('TelaLogin')}>          
+          <Text style={theme.text_actionbutton}>Logout</Text>
+        </TouchableOpacity>
+      </View>
+      </View>
     </View>
   )
 

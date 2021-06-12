@@ -4,10 +4,28 @@ import Constants from 'expo-constants';
 import { Dropdown } from 'react-native-material-dropdown-v2-fixed';
 import firebase from 'firebase'
 import { FontAwesome } from '@expo/vector-icons'; 
-
 import {theme} from '../../themes/darkTheme'
+import * as Location from 'expo-location';
+
 
 export default function TelaCadastrarLocal({ navigation }) {
+
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied');
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+    })();
+  }, []);
+
   const db = firebase.database()
 
   const [local, setLocal] = useState({
@@ -162,37 +180,11 @@ export default function TelaCadastrarLocal({ navigation }) {
   }
 
   async function getLatitude() {
-    navigator.geolocation.getCurrentPosition(
-        position => {
-          let region = {
-            latitude: parseFloat(position.coords.latitude),
-          };
-          setLocal({...local, latitude: JSON.stringify(region.latitude)})
-        },
-        error => console.log(error),
-        {
-            enableHighAccuracy: true,
-            timeout: 20000,
-            maximumAge: 1000
-        }
-    );
+    setLocal({...local, latitude: JSON.stringify(location.coords.latitude)})
   }
 
   async function getLongitude() {
-    navigator.geolocation.getCurrentPosition(
-        position => {
-          let region = {
-            longitude: parseFloat(position.coords.longitude),
-          };
-          setLocal({...local, longitude: JSON.stringify(region.longitude)})
-        },
-        error => console.log(error),
-        {
-            enableHighAccuracy: true,
-            timeout: 20000,
-            maximumAge: 1000
-        }
-    );
+    setLocal({...local, longitude: JSON.stringify(location.coords.longitude)})
   }
 
   function inserirNovoLocal() {

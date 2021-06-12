@@ -4,6 +4,7 @@ import Constants from 'expo-constants';
 import firebase from 'firebase'
 import { FontAwesome } from '@expo/vector-icons'; 
 
+import {theme} from '../../themes/darkTheme'
 
 export default function TelaSolicitacaoReservasEquipamentos({ navigation }) {
   const db = firebase.database()
@@ -18,25 +19,25 @@ export default function TelaSolicitacaoReservasEquipamentos({ navigation }) {
   }, [])
 
   return (
-    <View style={Styles.containerPrincipal}>
-      <View style={{flexDirection: 'row'}}>
-        <Text style={Styles.titulo}>Reservas</Text>
-        <TouchableOpacity style={Styles.containerBotaoRefresh} onPress={()=>getReservas()}>
-          <FontAwesome name="refresh" size={35} color="#0d0da3" />
+    <View style={theme.container}>
+      <View style={theme.header}>
+        <Text style={theme.text_header}>Reservas</Text>
+        <TouchableOpacity style={theme.icon_actionbox} onPress={()=>getReservas()}>
+          <FontAwesome name="refresh" style={theme.icon_actionbox} />
         </TouchableOpacity>
       </View>
-      <View style={Styles.containerDeDados}>
-        <View style={{flexDirection: 'row'}}>
-          <TouchableOpacity style={Styles.containerBotaoAdicionar} onPress={()=>navigation.navigate('TelaSolicitacaoReservasSalas')}>
+      <View style={theme.content}>
+        <View style={{flexDirection: 'row', justifyContent:'space-between'}}>
+          <TouchableOpacity style={theme.buttons} onPress={()=>navigation.navigate('TelaSolicitacaoReservasSalas')}>
             <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-            <FontAwesome name="building" size={35} color="#000000" />
-              <Text style ={{margin: 5}}>Salas</Text>
+            <FontAwesome name="building" style={theme.icon_actionbox} />
+              <Text style ={theme.text_actionbox}>Salas</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={Styles.containerBotaoAdicionar} onPress={()=>navigation.navigate('TelaReservarEquipamento')}>
+          <TouchableOpacity style={theme.buttons} onPress={()=>navigation.navigate('TelaReservarEquipamento')}>
             <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-              <FontAwesome name="plus" size={35} color="#337861" />
-              <Text style ={{margin: 5}}>Equipamento</Text>
+              <FontAwesome name="plus" style={theme.icon_actionbox} />
+              <Text style ={theme.text_actionbox}>Equipamento</Text>
             </View>
           </TouchableOpacity>
         </View>
