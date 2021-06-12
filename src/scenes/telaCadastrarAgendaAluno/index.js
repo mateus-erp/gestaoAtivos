@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import {ScrollView, View, StyleSheet, Alert, AsyncStorage } from 'react-native';
-import Constants from 'expo-constants';
 import firebase from 'firebase'
 import { Dropdown } from 'react-native-material-dropdown-v2-fixed';
 
@@ -17,7 +16,6 @@ export default function TelaCadastrarAgendaAluno({ navigation }) {
   const db = firebase.database();
   const ref = db.ref('agendas');
   const [agenda, setAgenda] = useState({ dono: undefined, disciplina: undefined, sala: undefined, professor: undefined, dias: undefined, horario: undefined });
-  const [loading, setLoading] = useState(false);
   const [dadosDropDownSalas, setDadosDropDownSalas] = useState([]);
   const [isDateVisible, setDateVisibility] = useState(false);
   const [isTimeVisible, setTimeVisibility] = useState(false);
