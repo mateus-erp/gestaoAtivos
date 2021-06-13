@@ -1024,6 +1024,11 @@
   resolved "https://registry.yarnpkg.com/@expo-google-fonts/pattaya/-/pattaya-0.1.0.tgz#a4a0173d3e09b53573970fdc183ced2ccdebf46f"
   integrity sha512-tRNp1w0Lruk24ouxxDxRIJFOEA9O2I98u/zOOWcgE71L71QP2C3vOojgdnPUAE5CpByRw9TajvhLKDoi0zfCuQ==
 
+"@expo-google-fonts/roboto@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@expo-google-fonts/roboto/-/roboto-0.1.0.tgz#2897dc09db4ceb9f5ba337103090e1d70236e811"
+  integrity sha512-q+68xWZpLIS/iPC5jwoakEskyTVgIC1jfpNzWFMnUnBoZsWRq1rlpnleR3MjKDeN1Vt0NcvUI/aaZoCyIXhisw==
+
 "@expo/config-plugins@1.0.33", "@expo/config-plugins@^1.0.18":
   version "1.0.33"
   resolved "https://registry.npmjs.org/@expo/config-plugins/-/config-plugins-1.0.33.tgz"
@@ -3287,6 +3292,11 @@ expo-location@~12.0.4:
     "@expo/config-plugins" "^1.0.18"
     unimodules-permissions-interface "~6.1.0"
 
+expo-secure-store@~10.1.0:
+  version "10.1.0"
+  resolved "https://registry.yarnpkg.com/expo-secure-store/-/expo-secure-store-10.1.0.tgz#a223b3323526b152cd29c6e13058d8c8c2711eab"
+  integrity sha512-mH53aCptDMiLGopsq0uSpeRLtVpFi+IgwqLGNvIKn0CnSxBUbzE9bq5TSKCBm4JxN4/viohpV3R7L6Qj8MQT+g==
+
 expo@~41.0.1:
   version "41.0.1"
   resolved "https://registry.npmjs.org/expo/-/expo-41.0.1.tgz"
@@ -5410,6 +5420,11 @@ react-native-iphone-x-helper@^1.3.0, react-native-iphone-x-helper@^1.3.1:
   version "1.3.1"
   resolved "https://registry.npmjs.org/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.3.1.tgz"
   integrity sha512-HOf0jzRnq2/aFUcdCJ9w9JGzN3gdEg0zFE4FyYlp4jtidqU03D5X7ZegGKfT1EWteR0gPBGp9ye5T5FvSWi9Yg==
+
+react-native-keychain@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-keychain/-/react-native-keychain-7.0.0.tgz#11fd559fe86ae89f934b8c75ae228247deed5494"
+  integrity sha512-tH26sgW4OxB/llXmhO+DajFISEUoF1Ip2+WSDMIgCt8SP1xRE81m2qFzgIOc/7StYsUERxHhDPkxvq2H0/Goig==
 
 react-native-location@^2.5.0:
   version "2.5.0"

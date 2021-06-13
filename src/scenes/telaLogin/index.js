@@ -7,6 +7,7 @@ import { CustomHeader } from '../../components/CustomHeader';
 import { CustomButton } from '../../components/CustomButton';
 import { CustomLink } from '../../components/CustomLink';
 import { CustomInput } from '../../components/CustomInput';
+import * as SecureStore from 'expo-secure-store';
 
 export default function TelaLogin({ navigation }) {
   const db = firebase.database();
@@ -69,7 +70,8 @@ export default function TelaLogin({ navigation }) {
 
   async function guardarNoAsync(){
     const {email} = usuario
-
+    await SecureStore.setItemAsync("email", usuario.email);
+    await SecureStore.setItemAsync("senha", usuario.senha);
     try {
       await AsyncStorage.removeItem('@usuario')
     } catch (error) {

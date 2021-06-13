@@ -3,7 +3,40 @@ import { roxo, branco, claro } from '../scenes/cores'
 import { View, Text, StyleSheet } from 'react-native'
 import { useFonts, Pattaya_400Regular } from '@expo-google-fonts/pattaya';
 
-export function CustomHeader(props) {
+export function CustomHeader({ subHeader, size=200 }) {
+    const SubView = () => {
+        if (subHeader == false){
+            return null;
+        }
+        return (
+            <View style={Styles.subHeader2}></View>
+        );
+    }
+    const Styles = StyleSheet.create({
+        header: {
+            backgroundColor: roxo,
+            height: size,
+        },
+
+        subHeader1: {
+            height: 150,
+            alignItems: 'center',
+            justifyContent: 'center',
+        },
+
+        title: {
+            color: claro,
+            fontSize: 30,
+        },
+
+        subHeader2: {
+            backgroundColor: branco,
+            height: 50,
+            borderTopLeftRadius: 100,
+        },
+
+    });
+
     let [fontsLoaded] = useFonts({
         Pattaya_400Regular,
     });
@@ -17,32 +50,7 @@ export function CustomHeader(props) {
             <View style={Styles.subHeader1}>
                 <Text style={{ color: claro, fontSize: 100, fontFamily: 'Pattaya_400Regular' }}>A</Text>
             </View>
-            <View style={Styles.subHeader2}></View>
+            <SubView />
         </View>
     )
 }
-
-const Styles = StyleSheet.create({
-    header: {
-        backgroundColor: roxo,
-        height: 200,
-    },
-
-    subHeader1: {
-        height: 150,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-
-    title: {
-        color: claro,
-        fontSize: 30,
-    },
-
-    subHeader2: {
-        backgroundColor: branco,
-        height: 50,
-        borderTopLeftRadius: 100,
-    },
-
-});

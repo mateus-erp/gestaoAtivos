@@ -27,7 +27,7 @@ import TelaCadastrarColaborador from './scenes/telaCadastrarColaborador'
 import TelaConfigurarLocais from './scenes/telaConfigurarLocais'
 import TelaCadastrarLocal from './scenes/telaCadastrarLocal'
 import TelaEditarLocal from './scenes/telaEditarLocal'
-
+import TelaConsultaAgenda from './scenes/telaConsultaAgenda'
 export function Route(props){
     return(
         <NavigationContainer>
@@ -38,6 +38,7 @@ export function Route(props){
                 <Stack.Screen name="TelaCadastrarAluno" component={TelaCadastrarAluno} />
                 <Stack.Screen name="TelaResetarSenha" component={TelaResetarSenha} />
                 <Stack.Screen name="TelaAluno" component={TelaAluno} />
+                <Stack.Screen name="TelaConsultaAgenda" component={TelaConsultaAgenda} />
                 <Stack.Screen name="TelaCadastrarAgendaAluno" component={TelaCadastrarAgendaAluno} />
                 <Stack.Screen name="TelaEditarAgendaAluno" component={TelaEditarAgendaAluno} />
                 <Stack.Screen name="TelaProfessor" component={TelaProfessor} />

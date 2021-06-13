@@ -16,6 +16,7 @@ export default function TelaAluno({ navigation }) {
       <View style={theme.content}>
         <View style={theme.buttons}>
           <ActionBox title="Cadastrar Agenda" icon="book" link={() => navigation.navigate("TelaCadastrarAgendaAluno")}></ActionBox>
+          <ActionBox title="Consulta Agenda" icon="book" link={() => navigation.navigate("TelaConsultaAgenda")}></ActionBox>
         </View>
         <View style={theme.logout}>
           <TouchableOpacity style={theme.actionbutton} onPress={() => navigation.navigate('TelaLogin')}>
