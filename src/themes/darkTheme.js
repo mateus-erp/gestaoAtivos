@@ -85,6 +85,11 @@ export const theme = {
         color: escuro,
         width:35
     },
+    icon_actionbox_white:{
+        fontSize:30,
+        color: claro,
+        width:35
+    },
     actionbutton:{
         flexDirection: 'row',
         width: Dimensions.get('window').width-30,

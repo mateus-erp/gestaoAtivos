@@ -18,6 +18,7 @@ export default function TelaSGP({ navigation }) {
           <ActionBox title="Avaliar Reservas" icon="book" link={()=>navigation.navigate("TelaVerificarReservasEquipamentos")}></ActionBox>
           <ActionBox title="Configurar Locais" icon="home" link={()=>navigation.navigate("TelaConfigurarLocais")}></ActionBox>
           <ActionBox title="Cadastrar Colaboradores" icon="address-card" link={()=>navigation.navigate("TelaCadastrarColaborador")}></ActionBox>
+          <ActionBox title="Configurar Disciplina" icon="wpforms" link={()=>navigation.navigate("TelaDisciplina")}></ActionBox>
         </View>
         <View style={theme.logout}>
             <TouchableOpacity style={theme.actionbutton} onPress={()=>navigation.navigate('TelaLogin')}>          
