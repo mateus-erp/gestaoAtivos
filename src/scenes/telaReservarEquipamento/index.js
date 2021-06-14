@@ -108,7 +108,7 @@ export default function TelaReservarEquipamento({ navigation }){
                         isVisible={isDateVisible}
                         onConfirm={handleConfirm}
                         onCancel={hideDatePicker}
-                        value={reserva.date}
+                        value={date}
                     />
                     <CustomTime
                     onPress={showTimePicker}
@@ -118,7 +118,7 @@ export default function TelaReservarEquipamento({ navigation }){
                     isVisible={isTimeVisible}
                     onConfirm={handleConfirmTime}
                     onCancel={hideDatePicker}
-                    value={reserva.hora}
+                    value={hora}
                     />
                 </View>
                 

@@ -104,7 +104,7 @@ export default function TelaCadastrarAgendaAluno({ navigation }) {
             isVisible={isDateVisible}
             onConfirm={handleConfirm}
             onCancel={hideDatePicker}
-            value={agenda.date}
+            value={date}
           />
         <CustomTime
           onPress={showTimePicker}
@@ -114,7 +114,7 @@ export default function TelaCadastrarAgendaAluno({ navigation }) {
           isVisible={isTimeVisible}
           onConfirm={handleConfirmTime}
           onCancel={hideDatePicker}
-          value={agenda.hora}
+          value={hora}
         />
         </View>
         <View style={Styles.containerDosDados}>
