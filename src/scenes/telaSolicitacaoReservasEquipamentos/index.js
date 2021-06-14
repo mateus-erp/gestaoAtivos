@@ -21,23 +21,17 @@ export default function TelaSolicitacaoReservasEquipamentos({ navigation }) {
   return (
     <View style={theme.container}>
       <View style={theme.header}>
-        <Text style={theme.text_header}>Reservas</Text>
+        <Text style={theme.text_header}>Reservar Equipamento</Text>
         <TouchableOpacity style={theme.icon_actionbox} onPress={()=>getReservas()}>
           <FontAwesome name="refresh" style={theme.icon_actionbox} />
         </TouchableOpacity>
       </View>
       <View style={theme.content}>
         <View style={{flexDirection: 'row', justifyContent:'space-between'}}>
-          <TouchableOpacity style={theme.buttons} onPress={()=>navigation.navigate('TelaSolicitacaoReservasSalas')}>
-            <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-            <FontAwesome name="building" style={theme.icon_actionbox} />
-              <Text style ={theme.text_actionbox}>Salas</Text>
-            </View>
-          </TouchableOpacity>
           <TouchableOpacity style={theme.buttons} onPress={()=>navigation.navigate('TelaReservarEquipamento')}>
             <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
               <FontAwesome name="plus" style={theme.icon_actionbox} />
-              <Text style ={theme.text_actionbox}>Equipamento</Text>
+              <Text style ={theme.text_actionbox}>Adicionar Reserva</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -45,7 +39,7 @@ export default function TelaSolicitacaoReservasEquipamentos({ navigation }) {
         <FlatList
           data={dados}
           renderItem={({ item }) => (
-            <View style={Styles.containerSalas}>
+            <View style={theme.subcontainer}>
               <View style={{flex: 3}}>
                 <Text style={{fontSize: 17, fontWeight: 'bold', marginLeft: 10, margin: 5}}>
                   Tipo: {item.tipoDeReserva}
@@ -70,74 +64,6 @@ export default function TelaSolicitacaoReservasEquipamentos({ navigation }) {
                 <Text style={{fontSize: 15, marginLeft: 10, marginBottom: 5}}>
                   {item.dataRetirada} às {item.horaRetirada}
                 </Text>
-                <Text style={{fontSize: 15,fontWeight: 'bold', marginLeft: 10}}>
-                  Solicitações:
-                </Text>
-                <View style={{maxHeight: 300, maxWidth: 300, marginLeft: 10}}>
-                  <View style={Styles.containerSwitch}>
-                      <Switch
-                          trackColor={{ false: "#c0c4bc", true: "#799E34" }}
-                          thumbColor={item.adaptadorMacbook ? "#6FDE0E" : "#6f706e"}
-                          ios_backgroundColor="#3e3e3e"
-                          value={item.adaptadorMacbook}
-                      />
-                      <Text style={{fontSize: 15}}>adaptador para macbook</Text>
-                  </View>
-                  <View style={Styles.containerSwitch}>
-                      <Switch
-                          trackColor={{ false: "#c0c4bc", true: "#799E34" }}
-                          thumbColor={item.adaptadorVGA ? "#6FDE0E" : "#6f706e"}
-                          ios_backgroundColor="#3e3e3e"
-                          value={item.adaptadorVGA}
-                      />
-                      <Text style={{fontSize: 15}}>adaptador VGA</Text>
-                  </View>
-                  <View style={Styles.containerSwitch}>
-                      <Switch
-                          trackColor={{ false: "#c0c4bc", true: "#799E34" }}
-                          thumbColor={item.caixaDeSom ? "#6FDE0E" : "#6f706e"}
-                          ios_backgroundColor="#3e3e3e"
-                          value={item.caixaDeSom}
-                      />
-                      <Text style={{fontSize: 15}}>Caixa de som</Text>
-                  </View>
-                  <View style={Styles.containerSwitch}>
-                      <Switch
-                          trackColor={{ false: "#c0c4bc", true: "#799E34" }}
-                          thumbColor={item.datashow ? "#6FDE0E" : "#6f706e"}
-                          ios_backgroundColor="#3e3e3e"
-                          value={item.datashow}
-                      />
-                      <Text style={{fontSize: 15}}>Datashow</Text>
-                  </View>
-                  <View style={Styles.containerSwitch}>
-                      <Switch
-                          trackColor={{ false: "#c0c4bc", true: "#799E34" }}
-                          thumbColor={item.filtroDeLinha ? "#6FDE0E" : "#6f706e"}
-                          ios_backgroundColor="#3e3e3e"
-                          value={item.filtroDeLinha}
-                      />
-                      <Text style={{fontSize: 15}}>Filtro de linha</Text>
-                  </View>
-                  <View style={Styles.containerSwitch}>
-                      <Switch
-                          trackColor={{ false: "#c0c4bc", true: "#799E34" }}
-                          thumbColor={item.mouse ? "#6FDE0E" : "#6f706e"}
-                          ios_backgroundColor="#3e3e3e"
-                          value={item.mouse}
-                      />
-                      <Text style={{fontSize: 15}}>Mouse</Text>
-                  </View>
-                  <View style={Styles.containerSwitch}>
-                      <Switch
-                          trackColor={{ false: "#c0c4bc", true: "#799E34" }}
-                          thumbColor={item.notebook ? "#6FDE0E" : "#6f706e"}
-                          ios_backgroundColor="#3e3e3e"
-                          value={item.notebook}
-                      />
-                      <Text style={{fontSize: 15}}>Notebook</Text>
-                  </View>
-              </View>
               </View>
               <View>
                 <TouchableOpacity style={{margin: 10}} onPress={()=>delReserva(item.key)}>

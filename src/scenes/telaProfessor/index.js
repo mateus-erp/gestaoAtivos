@@ -2,113 +2,43 @@ import React, {useState} from 'react';
 import { Text, View, ScrollView, StyleSheet, Alert, FlatList, Image, TouchableOpacity, Modal, AsyncStorage, ActivityIndicator } from 'react-native';
 import Constants from 'expo-constants';
 import firebase from 'firebase'
-import { FontAwesome } from '@expo/vector-icons'; 
+import { FontAwesome,MaterialCommunityIcons } from '@expo/vector-icons'; 
 import Icon from 'react-native-vector-icons/FontAwesome'
 
 import {theme} from '../../themes/darkTheme'
 
 export default function TelaProfessor({ navigation }) {
-  const db = firebase.database()
-  const ref = db.ref(`agendas`)
-
-  const [modalVisible, setModalVisible] = useState(false);
-  const [usuario, setUsuario] = useState({email: ''})
-  const [dados, setDados] = useState([])
-  const [loading, setLoading] = useState(false)
-
   return (
     <View style={theme.container}>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}>
-        <View style={Styles.containerModal}>
-          <TouchableOpacity onPress={()=>setModalVisible(false)}>
-            <FontAwesome name="close" size={35} color="#fff" />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={()=>adicionarDados()} style={Styles.containerBotaoAdicionar}>
-            <FontAwesome name="plus" size={35} color="#fff" />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={()=>getAgenda()} style={Styles.containerBotaoAtualizar}>
-            <FontAwesome name="refresh" size={35} color="#fff" />
-          </TouchableOpacity>
-          <View style={{margin: 20}}>
-            <Text style={Styles.titulo}>Minha agenda</Text>
-          </View>
-          <View style={Styles.containerFlatList}>
-          {loading && <ActivityIndicator size="large" color="#0000ff" />}
-            <FlatList
-              data={dados}
-              renderItem={({ item }) => (
-                <View style={Styles.containerInternoFlatList}>
-                  <Text style={{fontSize: 17, fontWeight: 'bold', marginLeft: 10, marginTop: 5}}>
-                    Disciplina:
-                  </Text>
-                  <Text style={{fontSize: 17, marginLeft: 10,}}>
-                    {item.disciplina}
-                  </Text>
-                  <Text style={{fontSize: 15,fontWeight: 'bold', marginLeft: 10}}>
-                    Dias:
-                  </Text>
-                  <Text style={{fontSize: 15, marginLeft: 10, marginBottom: 5}}>
-                    {item.dias}
-                  </Text>
-                  <View style={{flexDirection: 'row'}}>
-                    <Text style={{fontSize: 15,fontWeight: 'bold', marginLeft: 10}}>
-                      Horário:
-                    </Text>
-                    <Text style={{fontSize: 15, marginLeft: 5, marginBottom: 5}}>
-                      {item.horario} hrs.
-                    </Text>
-                  </View>
-                  <View style={{flexDirection: 'row'}}>
-                      <Text style={{fontSize: 15,fontWeight: 'bold', marginLeft: 10}}>
-                        Sala:
-                      </Text>
-                      <Text style={{fontSize: 15, marginLeft: 5, marginBottom: 5}}>
-                        {item.sala}
-                      </Text>
-                  </View>
-                  <View style={{flexDirection: 'row', alignSelf: 'center'}}>
-                    <TouchableOpacity onPress={()=>editarAnotacao(item.key)} style={Styles.containerBotaoEditar}>
-                      <FontAwesome name="pencil" size={30} color="#fff" />
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={()=>delAnotacao(item.key)} style={Styles.containerBotaoRemover}>
-                      <FontAwesome name="trash" size={30} color="#fff" />
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              )}
-              keyExtractor={(item, index) => `${index}`}
-            />
-          </View>
-        </View>
-      </Modal>
-
       <View style={theme.header}>
         <Text style={theme.text_header}>Bem-vindo</Text>
         <Icon name= 'graduation-cap' style={{color: '#fff', fontSize: 35, alignSelf: 'center'}}></Icon>
       </View>
-
       <View style={theme.content}>
         <View style={theme.buttons}>
-          <TouchableOpacity style={theme.actionbox} onPress={()=>abrirAgenda()}>
+          <TouchableOpacity style={theme.actionbox} onPress={()=>navigation.navigate('TelaCadastrarAgendaProfessor')}>
+            <View style={theme.icon_actionbox}>
+              <Icon name='plus' style={theme.icon_actionbox}></Icon>
+            </View>
+            <Text style={theme.text_actionbox}>Cadastrar Agenda</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={theme.actionbox} onPress={()=>navigation.navigate('TelaConsultaAgenda')}>
             <View style={theme.icon_actionbox}>
               <Icon name='book' style={theme.icon_actionbox}></Icon>
             </View>
             <Text style={theme.text_actionbox}>Minha agenda</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={theme.actionbox} onPress={()=>navigation.navigate('TelaLocalizarSala')}>
-            <View style={theme.icon_actionbox}>
-              <Icon name='home' style={theme.icon_actionbox}></Icon>
-            </View>
-            <Text style={theme.text_actionbox}>Localizar sala</Text>
-          </TouchableOpacity>
           <TouchableOpacity style={theme.actionbox} onPress={()=>navigation.navigate('TelaSolicitacaoReservasEquipamentos')}>
+            <View style={theme.icon_actionbox}>
+              <MaterialCommunityIcons name="projector" style={theme.icon_actionbox} />
+            </View>
+            <Text style={theme.text_actionbox}>Reservar Equipamento</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={theme.actionbox} onPress={()=>navigation.navigate('TelaSolicitacaoReservasSalas')}>
             <View style={theme.icon_actionbox}>
             <FontAwesome name="key" style={theme.icon_actionbox}/>
             </View>
-            <Text style={theme.text_actionbox}>Reservas</Text>
+            <Text style={theme.text_actionbox}>Reservar Sala</Text>
           </TouchableOpacity>
         </View>
       <View style={theme.logout}>
@@ -118,105 +48,7 @@ export default function TelaProfessor({ navigation }) {
       </View>
       </View>
     </View>
-  )
-
-
-  function abrirAgenda(){
-    setModalVisible(true)
-    getEmail()
-  }
-
-  function editarAnotacao(key){
-    setModalVisible(false)
-    navigation.navigate('TelaEditarAgendaProfessor', {key: key})
-  }
-
-  function adicionarDados(){
-    setModalVisible(false)
-    navigation.navigate('TelaCadastrarAgendaProfessor')
-  }
-
-  async function getEmail(){
-    let email = ''
-        try {
-           email = await AsyncStorage.getItem('@usuario')
-        } catch (error) {
-            console.log(error)
-            Alert.alert('Atenção', 'Erro ao pegar o email do colaborador')
-            navigation.goBack()
-        }
-    setUsuario({...usuario, email: email})
-    getAgendaInicial(email)
-  }
-
-  async function getAgendaInicial(email) {
-    setLoading(true)
-    let ordem = 'dono'
-      try {
-        let res = await ref.orderByChild(ordem).equalTo(email).once('value')
-          if(res.val()){
-            let datalist= []
-            res.forEach((e) => {
-              datalist.push({key: e.key, ...e.val()})
-            })
-            setDados([])
-            setDados(datalist)
-          }else{
-            setDados([])
-            Alert.alert('Atenção', 'Você ainda não tem nada cadastrado.')
-          }
-      } catch (error) {
-        Alert.alert('Atenção', error)
-      }
-    setLoading(false)
-  }
-
-  async function getAgenda() {
-    setLoading(true)
-    const {email} = usuario
-    let ordem = 'dono'
-      try {
-        let res = await ref.orderByChild(ordem).equalTo(email).once('value')
-          if(res.val()){
-            let datalist= []
-            res.forEach((e) => {
-              datalist.push({key: e.key, ...e.val()})
-            })
-            setDados([])
-            setDados(datalist)
-          }else{
-            setDados([])
-            Alert.alert('Atenção', 'Você não tem nada cadastrado.')
-          }
-      } catch (error) {
-        Alert.alert('Atenção', error)
-      }
-    setLoading(false)
-  }
-
-  async function delAnotacao(id){
-    setLoading(true)
-      try {
-        Alert.alert('Atenção','Deseja realmente excluir esta anotação?',
-          [
-            { text: 'Cancelar' },
-            {
-              text: 'Sim',
-              onPress: () => {
-                ref.child(`${id}`).remove()
-                getAgenda()
-              },
-            },
-          ],
-          { cancelable: true }
-        )
-      } catch (error) {
-        Alert.alert('Atenção', `${error}`)
-      }
-    setLoading(false)
-  }
-}
-
+  )}
 const Styles = StyleSheet.create({
   containerPrincipal: {
     flex: 1,

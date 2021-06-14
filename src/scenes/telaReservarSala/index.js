@@ -1,8 +1,12 @@
 import React, {useState, useEffect} from 'react'
 import { View, Alert, StyleSheet, TouchableOpacity, FlatList, Text, ActivityIndicator, AsyncStorage, TextInput } from 'react-native'
 import Constants from 'expo-constants';
-import DatePicker from 'react-native-datepicker'
 import firebase from 'firebase'
+
+import { theme } from '../../themes/darkTheme';
+
+import { CustomDate } from '../../components/CustomDate';
+import { CustomTime } from '../../components/CustomTime';
 
 export default function TelaReservarSalas({ navigation }){
     const db = firebase.database()
@@ -21,76 +25,131 @@ export default function TelaReservarSalas({ navigation }){
     const [dados, setDados] = useState([])
     const [loading, setLoading] = useState(false)
 
+    const [isDateVisible, setDateVisibility] = useState(false);
+    const [isTimeVisible, setTimeVisibility] = useState(false);
+    const [hora, setHorario] = useState("");
+    const [date, setDate] = useState("");
+  
+    const showDatePicker = () => {
+      setDateVisibility(true);
+    };
+  
+    const showTimePicker = () => {
+      setTimeVisibility(true);
+    };
+  
+    const hideDatePicker = () => {
+      setDateVisibility(false);
+    };
+  
+    const hideTimePicker = () => {
+      setTimeVisibility(false);
+    };
+  
+    const handleConfirm = (data) => {
+      Data(data);
+      hideDatePicker();
+    };
+  
+    const handleConfirmTime = (data) => {
+      horario(data)
+      hideTimePicker();
+    };
+
+  function horario(data) {
+    let horas = data.getHours().toString();
+    let minutos = data.getMinutes().toString();
+    let segundos = data.getSeconds().toString();
+    let dataTime = "";
+
+    { horas.length === 2 ? null : horas = "0" + horas }
+    { minutos.length === 2 ? null : minutos = "0" + minutos }
+    { segundos.length === 2 ? null : segundos = "0" + segundos }
+
+    dataTime = horas + ":" + minutos + ":" + segundos
+    setHorario(dataTime);
+    setReserva({ ...reserva, horaRetirada: dataTime })
+  }
+
+  function Data(data) {
+    let ano = data.getFullYear().toString();
+    let mes = data.getMonth().toString();
+    let dia = data.getDate().toString();
+    let dataFormatada = "";
+
+    { mes.length === 2 ? null : mes = "0" + mes }
+    { dia.length === 2 ? null : dia = "0" + dia }
+
+    dataFormatada = dia + "/" + mes + "/" + ano
+    setDate(dataFormatada);
+    setReserva({...reserva, dataRetirada: dataFormatada })
+  }
+
     useEffect(() =>{
         getEmail()
     },[])
 
     return(
-        <View style={Styles.containerPrincipal}>
-            <Text style={Styles.titulo}>Solicitar sala</Text>
-            <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-                <View style={{margin: 5}}>
-                    <DatePicker
-                        style={{width: 100}}
-                        date={reserva.horaRetirada}
-                        mode="time"
-                        placeholder="Horário"
-                        format="HH:mm"
-                        is24Hour={true}
-                        showIcon={false}
-                        confirmBtnText="Confirmar"
-                        cancelBtnText="Cancelar"
-                        onDateChange={texto => setReserva({...reserva, horaRetirada: texto})}
+        <View style={theme.container}>
+            <View style={theme.header}>
+                <Text style={theme.text_header}>Solicitar sala</Text>
+            </View>
+            <View style={theme.content}>
+                <View style={{margin: 5, flexDirection: 'row'}}>
+                    <CustomDate
+                        onPress={showDatePicker}
+                        title="Data"
+                        type="date"
+                        placeholder="Informe a Data"
+                        isVisible={isDateVisible}
+                        onConfirm={handleConfirm}
+                        onCancel={hideDatePicker}
+                        value={reserva.date}
+                    />
+                    <CustomTime
+                    onPress={showTimePicker}
+                    title="Horário"
+                    type="time"
+                    placeholder="Informe o Horário"
+                    isVisible={isTimeVisible}
+                    onConfirm={handleConfirmTime}
+                    onCancel={hideDatePicker}
+                    value={reserva.hora}
                     />
                 </View>
-                <View style={{margin: 5}}>
-                    <DatePicker
-                        style={{width: 100}}
-                        date={reserva.dataRetirada}
-                        mode="date"
-                        placeholder="Data"
-                        format="DD/MM/YYYY"
-                        minDate="01/06/2020"
-                        maxDate="30/12/2050"
-                        confirmBtnText="Confirmar"
-                        cancelBtnText="Cancelar"
-                        showIcon={false}
-                        onDateChange={texto => setReserva({...reserva, dataRetirada: texto})}
+                <View style={{borderWidth: 0.2, borderRadius: 20}}>
+                    <TextInput
+                        style={{height: 40, textAlign: 'center'}}
+                        placeholder="Motivo"
+                        value={reserva.motivo}
+                        onChangeText={texto => setReserva({...reserva, motivo: texto})}
+                        autoCapitalize={'sentences'}
+                        maxLength={20}
                     />
                 </View>
-            </View>
-            <View style={Styles.containerDosDados}>
-                <TextInput
-                    style={{height: 40, textAlign: 'center'}}
-                    placeholder="Motivo"
-                    value={reserva.motivo}
-                    onChangeText={texto => setReserva({...reserva, motivo: texto})}
-                    autoCapitalize={'sentences'}
-                    maxLength={20}
-                />
-            </View>
-            <View style={Styles.containerFlatList}>
-                <FlatList
-                    data={dados}
-                    renderItem={({ item }) => (
-                        <View>
-                            <TouchableOpacity onPress={() => setReserva({...reserva, sala: item.nomeLocal})} style={Styles.containerBotaoFlatList}>
-                                <Text style={Styles.textoDadosFlatList}>Sala: {item.nomeLocal}</Text>
-                            </TouchableOpacity>
-                        </View>
-                    )}
-                    keyExtractor={(item, index) => `${index}`}
-                />
-            </View>
+                <View style={Styles.containerFlatList}>
+                    <FlatList
+                        data={dados}
+                        renderItem={({ item }) => (
+                            <View style={{margin: -25}}>
+                                <TouchableOpacity onPress={() => setReserva({...reserva, sala: item.nomeLocal})} style={theme.text_actionbox}>
+                                    <Text style={theme.text_actionbox}>Sala: {item.nomeLocal}</Text>
+                                </TouchableOpacity>
+                            </View>
+                        )}
+                        keyExtractor={(item, index) => `${index}`}
+                    />
+                </View>
             {reserva.sala!='' && <Text style={Styles.textoDadosFlatList}>Local escolhido: {reserva.sala}</Text>}
             {loading && <ActivityIndicator animating={loading} size="large" color="#0000ff" />}
             <View style={Styles.botaoContainer}>
-                <TouchableOpacity style={Styles.botaoCadastrar} onPress={()=>navigation.goBack()}>
-                <Text style={Styles.textoBotaoCadastrar}>RETORNAR</Text>
+                <TouchableOpacity style={theme.usual_button} onPress={()=>navigation.goBack()}>
+                <Text style={theme.text_usual_button}>Retornar</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={Styles.botaoAcessar} onPress={()=>inserirNovaReserva()}>
-                <Text style={Styles.textoBotaoAcessar}>RESERVAR</Text>
+                <TouchableOpacity style={theme.usual_button} onPress={()=>inserirNovaReserva()}>
+                <Text style={theme.text_usual_button}>Reservar</Text>
                 </TouchableOpacity>
+            </View>
             </View>
         </View>
     )
@@ -182,7 +241,7 @@ const Styles = StyleSheet.create({
     },
     containerFlatList: {
         margin: 5,
-        width:'80%',
+        width:'95%',
         height:'50%',
         backgroundColor: '#fff',
         justifyContent:'center',

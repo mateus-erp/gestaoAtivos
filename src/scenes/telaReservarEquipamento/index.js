@@ -1,8 +1,12 @@
 import React, {useState, useEffect} from 'react'
-import { View, ScrollView, Alert, Switch, StyleSheet, TouchableOpacity, Text, ActivityIndicator, AsyncStorage } from 'react-native'
+import { View, Dimensions, ScrollView, Alert, Switch, StyleSheet, TouchableOpacity, Text, ActivityIndicator, AsyncStorage } from 'react-native'
 import Constants from 'expo-constants';
-import DatePicker from 'react-native-datepicker'
 import firebase from 'firebase'
+
+import { theme } from '../../themes/darkTheme';
+
+import { CustomDate } from '../../components/CustomDate';
+import { CustomTime } from '../../components/CustomTime';
 
 export default function TelaReservarEquipamento({ navigation }){
     const db = firebase.database()
@@ -24,125 +28,182 @@ export default function TelaReservarEquipamento({ navigation }){
     })
     const [loading, setLoading] = useState(false)
 
+    const [isDateVisible, setDateVisibility] = useState(false);
+    const [isTimeVisible, setTimeVisibility] = useState(false);
+    const [hora, setHorario] = useState("");
+    const [date, setDate] = useState("");
+  
+    const showDatePicker = () => {
+      setDateVisibility(true);
+    };
+  
+    const showTimePicker = () => {
+      setTimeVisibility(true);
+    };
+  
+    const hideDatePicker = () => {
+      setDateVisibility(false);
+    };
+  
+    const hideTimePicker = () => {
+      setTimeVisibility(false);
+    };
+  
+    const handleConfirm = (data) => {
+      Data(data);
+      hideDatePicker();
+    };
+  
+    const handleConfirmTime = (data) => {
+      horario(data)
+      hideTimePicker();
+    };
+
+  function horario(data) {
+    let horas = data.getHours().toString();
+    let minutos = data.getMinutes().toString();
+    let segundos = data.getSeconds().toString();
+    let dataTime = "";
+
+    { horas.length === 2 ? null : horas = "0" + horas }
+    { minutos.length === 2 ? null : minutos = "0" + minutos }
+    { segundos.length === 2 ? null : segundos = "0" + segundos }
+
+    dataTime = horas + ":" + minutos + ":" + segundos
+    setHorario(dataTime);
+    setReserva({ ...reserva, horaRetirada: dataTime })
+  }
+
+  function Data(data) {
+    let ano = data.getFullYear().toString();
+    let mes = data.getMonth().toString();
+    let dia = data.getDate().toString();
+    let dataFormatada = "";
+
+    { mes.length === 2 ? null : mes = "0" + mes }
+    { dia.length === 2 ? null : dia = "0" + dia }
+
+    dataFormatada = dia + "/" + mes + "/" + ano
+    setDate(dataFormatada);
+    setReserva({...reserva, dataRetirada: dataFormatada })
+  }
+
+
     useEffect(() =>{
         getEmail()
     },[])
 
     return(
-        <View style={Styles.containerPrincipal}>
-            <Text style={Styles.titulo}>Solicitar equipamento</Text>
-            <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-                <View style={{margin: 5}}>
-                    <DatePicker
-                        style={{width: 100}}
-                        date={reserva.horaRetirada}
-                        mode="time"
-                        placeholder="Horário"
-                        format="HH:mm"
-                        is24Hour={true}
-                        showIcon={false}
-                        confirmBtnText="Confirmar"
-                        cancelBtnText="Cancelar"
-                        onDateChange={texto => setReserva({...reserva, horaRetirada: texto})}
-                    />
-                </View>
-                <View style={{margin: 5}}>
-                    <DatePicker
-                        style={{width: 100}}
-                        date={reserva.dataRetirada}
-                        mode="date"
-                        placeholder="Data"
-                        format="DD/MM/YYYY"
-                        minDate="01/06/2020"
-                        maxDate="30/12/2050"
-                        confirmBtnText="Confirmar"
-                        cancelBtnText="Cancelar"
-                        showIcon={false}
-                        onDateChange={texto => setReserva({...reserva, dataRetirada: texto})}
-                    />
-                </View>
+        <View style={theme.container}>
+            <View style={theme.header}>
+                <Text style={theme.text_header}>Solicitar equipamento</Text>
             </View>
-            <ScrollView style={{maxHeight: 300, maxWidth: 300, margin: 15}}>
-                <View style={Styles.containerSwitch}>
-                    <Switch
-                        trackColor={{ false: "#c0c4bc", true: "#799E34" }}
-                        thumbColor={reserva.adaptadorMacbook ? "#6FDE0E" : "#6f706e"}
-                        ios_backgroundColor="#3e3e3e"
-                        onValueChange={() => alterarValor('adaptadorMacbook')}
-                        value={reserva.adaptadorMacbook}
+            <View style={theme.content}>
+                <View style={{margin: 5, flexDirection: 'row'}}>
+                    <CustomDate
+                        onPress={showDatePicker}
+                        title="Data"
+                        type="date"
+                        placeholder="Informe a Data"
+                        isVisible={isDateVisible}
+                        onConfirm={handleConfirm}
+                        onCancel={hideDatePicker}
+                        value={reserva.date}
                     />
-                    <Text style={{fontSize: 15}}>adaptador para macbook</Text>
-                </View>
-                <View style={Styles.containerSwitch}>
-                    <Switch
-                        trackColor={{ false: "#c0c4bc", true: "#799E34" }}
-                        thumbColor={reserva.adaptadorVGA ? "#6FDE0E" : "#6f706e"}
-                        ios_backgroundColor="#3e3e3e"
-                        onValueChange={() => alterarValor('adaptadorVGA')}
-                        value={reserva.adaptadorVGA}
+                    <CustomTime
+                    onPress={showTimePicker}
+                    title="Horário"
+                    type="time"
+                    placeholder="Informe o Horário"
+                    isVisible={isTimeVisible}
+                    onConfirm={handleConfirmTime}
+                    onCancel={hideDatePicker}
+                    value={reserva.hora}
                     />
-                    <Text style={{fontSize: 15}}>adaptador VGA</Text>
                 </View>
-                <View style={Styles.containerSwitch}>
-                    <Switch
-                        trackColor={{ false: "#c0c4bc", true: "#799E34" }}
-                        thumbColor={reserva.caixaDeSom ? "#6FDE0E" : "#6f706e"}
-                        ios_backgroundColor="#3e3e3e"
-                        onValueChange={() => alterarValor('caixaDeSom')}
-                        value={reserva.caixaDeSom}
-                    />
-                    <Text style={{fontSize: 15}}>Caixa de som</Text>
+                
+                <ScrollView style={{maxHeight: 300, marginTop: -75}}>
+                    <View style={Styles.containerSwitch}>
+                        <Switch
+                            trackColor={{ false: "#c0c4bc", true: "#799E34" }}
+                            thumbColor={reserva.adaptadorMacbook ? "#6FDE0E" : "#6f706e"}
+                            ios_backgroundColor="#3e3e3e"
+                            onValueChange={() => alterarValor('adaptadorMacbook')}
+                            value={reserva.adaptadorMacbook}
+                        />
+                        <Text style={theme.text_actionbox}>Adaptador para Macbook</Text>
+                    </View>
+                    <View style={Styles.containerSwitch}>
+                        <Switch
+                            trackColor={{ false: "#c0c4bc", true: "#799E34" }}
+                            thumbColor={reserva.adaptadorVGA ? "#6FDE0E" : "#6f706e"}
+                            ios_backgroundColor="#3e3e3e"
+                            onValueChange={() => alterarValor('adaptadorVGA')}
+                            value={reserva.adaptadorVGA}
+                        />
+                        <Text style={theme.text_actionbox}>Adaptador VGA</Text>
+                    </View>
+                    <View style={Styles.containerSwitch}>
+                        <Switch
+                            trackColor={{ false: "#c0c4bc", true: "#799E34" }}
+                            thumbColor={reserva.caixaDeSom ? "#6FDE0E" : "#6f706e"}
+                            ios_backgroundColor="#3e3e3e"
+                            onValueChange={() => alterarValor('caixaDeSom')}
+                            value={reserva.caixaDeSom}
+                        />
+                        <Text style={theme.text_actionbox}>Caixa de som</Text>
+                    </View>
+                    <View style={Styles.containerSwitch}>
+                        <Switch
+                            trackColor={{ false: "#c0c4bc", true: "#799E34" }}
+                            thumbColor={reserva.datashow ? "#6FDE0E" : "#6f706e"}
+                            ios_backgroundColor="#3e3e3e"
+                            onValueChange={() => alterarValor('datashow')}
+                            value={reserva.datashow}
+                        />
+                        <Text style={theme.text_actionbox}>Datashow</Text>
+                    </View>
+                    <View style={Styles.containerSwitch}>
+                        <Switch
+                            trackColor={{ false: "#c0c4bc", true: "#799E34" }}
+                            thumbColor={reserva.filtroDeLinha ? "#6FDE0E" : "#6f706e"}
+                            ios_backgroundColor="#3e3e3e"
+                            onValueChange={() => alterarValor('filtroDeLinha')}
+                            value={reserva.filtroDeLinha}
+                        />
+                        <Text style={theme.text_actionbox}>Filtro de Linha</Text>
+                    </View>
+                    <View style={Styles.containerSwitch}>
+                        <Switch
+                            trackColor={{ false: "#c0c4bc", true: "#799E34" }}
+                            thumbColor={reserva.mouse ? "#6FDE0E" : "#6f706e"}
+                            ios_backgroundColor="#3e3e3e"
+                            onValueChange={() => alterarValor('mouse')}
+                            value={reserva.mouse}
+                        />
+                        <Text style={theme.text_actionbox}>Mouse</Text>
+                    </View>
+                    <View style={Styles.containerSwitch}>
+                        <Switch
+                            trackColor={{ false: "#c0c4bc", true: "#799E34" }}
+                            thumbColor={reserva.notebook ? "#6FDE0E" : "#6f706e"}
+                            ios_backgroundColor="#3e3e3e"
+                            onValueChange={() => alterarValor('notebook')}
+                            value={reserva.notebook}
+                        />
+                        <Text style={theme.text_actionbox}>Notebook</Text>
+                    </View>
+                </ScrollView>
+                <View style={Styles.botaoContainer}>
+                    <TouchableOpacity style={theme.usual_button} onPress={()=>navigation.goBack()}>
+                    <Text style={theme.text_usual_button}>Retornar</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={theme.usual_button} onPress={()=>inserirNovaReserva()}>
+                    <Text style={theme.text_usual_button}>Reservar</Text>
+                    </TouchableOpacity>
                 </View>
-                <View style={Styles.containerSwitch}>
-                    <Switch
-                        trackColor={{ false: "#c0c4bc", true: "#799E34" }}
-                        thumbColor={reserva.datashow ? "#6FDE0E" : "#6f706e"}
-                        ios_backgroundColor="#3e3e3e"
-                        onValueChange={() => alterarValor('datashow')}
-                        value={reserva.datashow}
-                    />
-                    <Text style={{fontSize: 15}}>Datashow</Text>
-                </View>
-                <View style={Styles.containerSwitch}>
-                    <Switch
-                        trackColor={{ false: "#c0c4bc", true: "#799E34" }}
-                        thumbColor={reserva.filtroDeLinha ? "#6FDE0E" : "#6f706e"}
-                        ios_backgroundColor="#3e3e3e"
-                        onValueChange={() => alterarValor('filtroDeLinha')}
-                        value={reserva.filtroDeLinha}
-                    />
-                    <Text style={{fontSize: 15}}>Filtro de linha</Text>
-                </View>
-                <View style={Styles.containerSwitch}>
-                    <Switch
-                        trackColor={{ false: "#c0c4bc", true: "#799E34" }}
-                        thumbColor={reserva.mouse ? "#6FDE0E" : "#6f706e"}
-                        ios_backgroundColor="#3e3e3e"
-                        onValueChange={() => alterarValor('mouse')}
-                        value={reserva.mouse}
-                    />
-                    <Text style={{fontSize: 15}}>Mouse</Text>
-                </View>
-                <View style={Styles.containerSwitch}>
-                    <Switch
-                        trackColor={{ false: "#c0c4bc", true: "#799E34" }}
-                        thumbColor={reserva.notebook ? "#6FDE0E" : "#6f706e"}
-                        ios_backgroundColor="#3e3e3e"
-                        onValueChange={() => alterarValor('notebook')}
-                        value={reserva.notebook}
-                    />
-                    <Text style={{fontSize: 15}}>Notebook</Text>
-                </View>
-            </ScrollView>
-            <View style={Styles.botaoContainer}>
-                <TouchableOpacity style={Styles.botaoCadastrar} onPress={()=>navigation.goBack()}>
-                <Text style={Styles.textoBotaoCadastrar}>RETORNAR</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={Styles.botaoAcessar} onPress={()=>inserirNovaReserva()}>
-                <Text style={Styles.textoBotaoAcessar}>RESERVAR</Text>
-                </TouchableOpacity>
+                {loading && <ActivityIndicator animating={loading} size="large" color="#0000ff" />}
             </View>
-            {loading && <ActivityIndicator animating={loading} size="large" color="#0000ff" />}
         </View>
     )
 
@@ -220,7 +281,7 @@ const Styles = StyleSheet.create({
     },
     containerSwitch: {
         flexDirection: 'row',
-        margin: 10,
+        marginTop: -15,
         alignItems: 'center',
     },
     imagemContainer: {
@@ -260,30 +321,5 @@ const Styles = StyleSheet.create({
         fontSize: 15,
         color: 'white',
         fontWeight: 'bold',
-    },
-    titulo: {
-        margin: 30,
-        fontSize: 30,
-        color: '#02246c',
-        fontWeight: 'bold',
-        alignSelf: 'center',
-    },
-    botaoCadastrar: {
-        width: 160,
-        height: 50,
-        backgroundColor: '#002566',
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 15,
-        margin: 5,
-    },
-    botaoAcessar: {
-        width: 160,
-        height: 50,
-        backgroundColor: '#acd54a',
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 15,
-        margin: 5,
-    },
+    }
 })

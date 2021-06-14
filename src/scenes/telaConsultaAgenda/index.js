@@ -97,7 +97,7 @@ export default function TelaConsultaAgenda({ navigation }) {
     return (
         <View style={Styles.container}>
             <View style={{ height: 50 }}>
-                <Pressable onPress={() => navigation.navigate("TelaAluno")} style={{ position: 'absolute', margin: 10, padding: 10 }}>
+                <Pressable onPress={() => navigation.goBack()} style={{ position: 'absolute', margin: 10, padding: 10 }}>
                     <Icon name="chevron-left" size={20} color={escuro}></Icon>
                 </Pressable>
             </View>
@@ -124,7 +124,7 @@ const Styles = StyleSheet.create({
 
     box: {
         width: 300,
-        height: 200,
+        height: 220,
         backgroundColor: branco,
         alignSelf: 'center',
         borderRadius: 10,

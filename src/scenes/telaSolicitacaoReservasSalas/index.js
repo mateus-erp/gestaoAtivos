@@ -4,6 +4,7 @@ import Constants from 'expo-constants';
 import firebase from 'firebase'
 import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons'; 
 
+import {theme} from '../../themes/darkTheme'
 
 export default function TelaSolicitacaoReservasSalas({ navigation }) {
   const db = firebase.database()
@@ -18,33 +19,28 @@ export default function TelaSolicitacaoReservasSalas({ navigation }) {
   }, [])
 
   return (
-    <View style={Styles.containerPrincipal}>
-      <View style={{flexDirection: 'row'}}>
-        <Text style={Styles.titulo}>Reservas</Text>
-        <TouchableOpacity style={Styles.containerBotaoRefresh} onPress={()=>getReservas()}>
-          <FontAwesome name="refresh" size={35} color="#0d0da3" />
+    <View style={theme.container}>
+      <View style={theme.header}>
+        <Text style={theme.text_header}>Reservar Sala</Text>
+        <TouchableOpacity style={theme.icon_actionbox} onPress={()=>getReservas()}>
+          <FontAwesome name="refresh" style={theme.icon_actionbox}/>
         </TouchableOpacity>
       </View>
-      <View style={Styles.containerDeDados}>
+      <View style={theme.content}>
         <View style={{flexDirection: 'row'}}>
-          <TouchableOpacity style={Styles.containerBotaoEsquerdo} onPress={()=>navigation.navigate('TelaSolicitacaoReservasEquipamentos')}>
+          <TouchableOpacity style={theme.buttons} onPress={()=>navigation.navigate('TelaReservarSala')}>
             <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-            <MaterialCommunityIcons name="projector" size={35} color="#337861" />
-              <Text style ={{margin: 5}}>Equipamentos</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity style={Styles.containerBotaoDireito} onPress={()=>navigation.navigate('TelaReservarSala')}>
-            <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-              <FontAwesome name="plus" size={35} color="#000000" />
-              <Text style ={{margin: 5}}>Salas</Text>
+              <FontAwesome name="plus" style={theme.icon_actionbox} />
+              <Text style={theme.text_actionbox}>Adicionar Reserva</Text>
             </View>
           </TouchableOpacity>
         </View>
+      
         {loading && <ActivityIndicator size="large" color="#0000ff" />}
         <FlatList
           data={dados}
           renderItem={({ item }) => (
-            <View style={Styles.containerSalas}>
+            <View style={theme.subcontainer}>
               <View style={{flex: 3}}>
                 <Text style={{fontSize: 17, fontWeight: 'bold', marginLeft: 10, margin: 5}}>
                   Tipo: {item.tipoDeReserva}

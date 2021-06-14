@@ -5,7 +5,6 @@ import firebase from 'firebase'
 import { FontAwesome } from '@expo/vector-icons'; 
 
 import {theme} from '../../themes/darkTheme'
-import ActionBox from '../../components/ActionBox'
 
 export default function TelaVerificarReservasEquipamentos({ navigation }) {
   const db = firebase.database()
@@ -156,13 +155,17 @@ export default function TelaVerificarReservasEquipamentos({ navigation }) {
                       <Text style={{fontSize: 15}}>Notebook</Text>
                   </View>
               </View>
-                <View style={{flexDirection: 'row', alignSelf: 'center'}}>
-                  <TouchableOpacity style={Styles.containerBotaoAprovar} onPress={()=>responderSolicitacao(item.key, 'Aprovado')}>
-                    <FontAwesome name="check" size={30} color="#fff" />
+                <View style={{flexDirection: 'row', alignSelf: 'center', justifyContent: 'space-between'}}>
+                  <View style={{margin: 10}}>
+                  <TouchableOpacity style={theme.icon_actionbox} onPress={()=>responderSolicitacao(item.key, 'Aprovado')}>
+                    <FontAwesome name="check" style={theme.icon_actionbox} />
                   </TouchableOpacity>
-                  <TouchableOpacity style={Styles.containerBotaoNegar} onPress={()=>responderSolicitacao(item.key, 'Negado')}>
-                    <FontAwesome name="close" size={30} color="#fff" />
+                  </View>
+                  <View style={{margin: 10}}>
+                  <TouchableOpacity style={theme.icon_actionbox} onPress={()=>responderSolicitacao(item.key, 'Negado')}>
+                    <FontAwesome name="close" style={theme.icon_actionbox} />
                   </TouchableOpacity>
+                  </View>
                 </View>
               </View>
             </View>
@@ -390,12 +393,12 @@ const Styles = StyleSheet.create({
     flexDirection: 'row',
     margin: 10,
     backgroundColor: '#fff',
-    width: 320,
+    width: '95%',
     height: 520,
     justifyContent: 'center',
-    borderRadius: 15,
+    borderTopLeftRadius: 35,
     borderColor: 'black',
-    borderWidth: 3,
+    borderWidth: 1,
     alignItems: 'center',
   },
   containerSwitch: {
