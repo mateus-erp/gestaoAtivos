@@ -8,10 +8,12 @@ import { FontAwesome } from '@expo/vector-icons';
 export default function TelaDisciplina({ navigation }) {
   const db = firebase.database()
 
-  const ref = db.ref('disciplinas/')
-
+  const ref = db.ref('disciplinas')
+  console.log(ref)
   const [disciplina, setDisciplina] = useState({ nome: '' })
   const [dados, setDados] = useState([])
+  const [loading, setLoading] = useState([])
+  
 
   useEffect(() =>{
     getDisciplinaInitial()
@@ -49,10 +51,10 @@ export default function TelaDisciplina({ navigation }) {
                 </Text>
               </View>
               <View>
-                <TouchableOpacity style={{margin: 15}} onPress={()=>delLocal(item.key)}>
+                <TouchableOpacity key={item.key}  style={{margin: 15}} onPress={()=>{ detetarDisc(item.key) } }>
                   <FontAwesome name="trash" size={25} color="#000" />
                 </TouchableOpacity>
-                <TouchableOpacity style={{margin: 15}} onPress={()=>navigation.navigate('TelaCadastrarDisciplina', {disciplina: `${disciplina.nome}`, key: item.key})}>
+                <TouchableOpacity style={{margin: 15}} onPress={()=>navigation.navigate('TelaCadastrarDisciplina', {edit: true, key: item.key})}>
                   <FontAwesome name="pencil" size={25} color="#000" />
                 </TouchableOpacity>
               </View>
@@ -84,12 +86,31 @@ export default function TelaDisciplina({ navigation }) {
     }  
   }
 
+  async function detetarDisc(id){
+    Alert.alert('Atenção','Deseja realmente excluir este local?',
+        [
+          { text: 'Cancelar' },
+          {
+            text: 'Sim',
+            onPress: () => {
+              db.ref('disciplinas/')
+              .child(`${id}`)
+              .remove().then(() =>{ 
+                getDisciplinaInitial()
+                })                
+            },
+          },
+        ],
+        { cancelable: true } 
+      )
+  }
+
   async function getDisciplinaInitial() {
     setLoading(true)
     setDados([])
-    const ref = db.ref(`${local.referencia}`)
+    //const ref = db.ref('disciplina')
       try {
-        let res = await ref.orderByChild('bloco').once('value')
+        let res = await ref.orderByChild('nome').once('value')
           if(res.val()){
             let datalist= []
             res.forEach((e) => {

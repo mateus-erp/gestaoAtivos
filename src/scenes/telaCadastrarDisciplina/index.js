@@ -8,11 +8,25 @@ import { roxo } from '../cores';
 
 export default function TelaCadastrarDisciplina({ navigation }) {
   const db = firebase.database()
-  const ref = db.ref('disciplinas/')
+  const ref = db.ref('disciplinas')
 
   const [disciplina, setDisciplina] = useState({ nome: ''})
   const [loading, setLoading] = useState(false)
+/*
+useEffect(()=>{
+  getdisc()
+})
 
+  async function getdisc() {    
+      if(edit == true){      
+      let res = await db.ref(`disciplinas/`).child(`${key}`).once('value')
+      setDisciplina({
+        nome: `${res.val().nome}`,        
+      })
+    
+    }
+  }
+*/
   return (
     <View style={Styles.containerPrincipal}>
       <Text style={Styles.titulo}>Nova Disciplina</Text>
@@ -64,17 +78,16 @@ export default function TelaCadastrarDisciplina({ navigation }) {
   async function cadastrarNoFirebaseAuth(){
     const {nome} = disciplina
     let uid = ''
-      await firebase.auth().createDisciplineWithNameforDiscipline(`${nome}`)
-          .then(function(res){
-            uid = res.disciplina.uid
-          })
+      await ref.push({nome:nome}).then( res => {
+        Alert.alert('Sucesso ,disciplina inserida!')
+      } )
       if(uid==''){
         Alert.alert('Falha no sistema', 'Erro ao inserir nova disciplina.')
       }else{
         cadastrarNoRealtimeDatabase(uid)
       }
   }
-
+  
   async function cadastrarNoRealtimeDatabase(uid){
     const { nome } = disciplina
       await ref.child(uid).push({
