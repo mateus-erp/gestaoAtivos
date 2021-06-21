@@ -85,6 +85,11 @@ export const theme = {
         color: escuro,
         width:35
     },
+    icon_actionbox_white:{
+        fontSize:30,
+        color: claro,
+        width:35
+    },
     actionbutton:{
         flexDirection: 'row',
         width: Dimensions.get('window').width-30,
@@ -121,6 +126,19 @@ export const theme = {
     backgroundColor: claro,
     width: Dimensions.get('window').width-20,
     height: 250,
+    justifyContent: 'center',
+    borderTopLeftRadius: 25,
+    borderColor: escuro,
+    borderWidth: 1,
+    alignItems: 'center',
+    alignSelf: 'center'
+  },
+  subcontainer_disc:{
+    flexDirection: 'row',
+    margin: 5,
+    backgroundColor: claro,
+    width: Dimensions.get('window').width-20,
+    height: 90,
     justifyContent: 'center',
     borderTopLeftRadius: 25,
     borderColor: escuro,

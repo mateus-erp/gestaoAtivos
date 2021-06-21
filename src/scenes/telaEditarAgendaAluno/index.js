@@ -22,14 +22,14 @@ export default function TelaEditarAgendaAluno({ navigation, route }) {
 
   return (
     <View style={Styles.containerPrincipal}>
-      <Text style={Styles.titulo}>Editar anotação</Text>
+      <Text style={Styles.titulo}>Editar anotaÃ§Ã£o</Text>
       <ScrollView style={{maxHeight: 310, margin:30}}>
       <View style={{margin: 5, alignSelf: 'center'}}>
             <DatePicker
                 style={{width: 200}}
                 date={agenda.horario}
                 mode="time"
-                placeholder="Horário"
+                placeholder="HorÃ¡rio"
                 format="HH:mm"
                 is24Hour={true}
                 showIcon={false}
@@ -101,12 +101,12 @@ export default function TelaEditarAgendaAluno({ navigation, route }) {
             setDadosDropDownSalas([])
             setDadosDropDownSalas(datalist)
           }else{
-            Alert.alert('Atenção', 'Não existem salas cadastradas.')
+            Alert.alert('AtenÃ§Ã£o', 'NÃ£o existem salas cadastradas.')
             navigation.goBack()
           }
       } catch (error) {
         console.log(error)
-        Alert.alert('Atenção', 'Erro a carregar as salas')
+        Alert.alert('AtenÃ§Ã£o', 'Erro a carregar as salas')
         navigation.goBack()
       }
   }
@@ -136,7 +136,7 @@ export default function TelaEditarAgendaAluno({ navigation, route }) {
            email = await AsyncStorage.getItem('@usuario')
         } catch (error) {
             console.log(error)
-            Alert.alert('Atenção', 'Erro ao pegar o email do colaborador')
+            Alert.alert('AtenÃ§Ã£o', 'Erro ao pegar o email do colaborador')
             navigation.goBack()
         }
     setAgenda({...agenda, dono: email})
@@ -149,7 +149,7 @@ export default function TelaEditarAgendaAluno({ navigation, route }) {
       editarAnotacao()
     }else{
       if(disciplina=='' || sala=='' || professor=='' || horario=='', dias==''){
-        Alert.alert('Atenção', 'Você precisa preencher todos os campos.')
+        Alert.alert('AtenÃ§Ã£o', 'VocÃª precisa preencher todos os campos.')
       }else{
         metodoEditar()
       } 
@@ -172,7 +172,7 @@ export default function TelaEditarAgendaAluno({ navigation, route }) {
         navigation.goBack()
       })
       .catch(function(error){
-        Alert.alert('Falha no sistema', 'Erro ao editar anotação.')
+        Alert.alert('Falha no sistema', 'Erro ao editar anotaÃ§Ã£o.')
       })
       .finally(setLoading(false))
   }

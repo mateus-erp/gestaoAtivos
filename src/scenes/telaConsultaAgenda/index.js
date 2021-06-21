@@ -64,7 +64,6 @@ export default function TelaConsultaAgenda({ navigation }) {
         try {
             const email = await SecureStore.getItemAsync("email");
             let query = await ref.orderByChild('dono').equalTo(email).on("child_added", (e) => {
-                console.log("e",e);
                 lista.push({ key: e.key, ...e.val() });
                 setLoop(true);
             });

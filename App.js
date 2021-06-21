@@ -10,7 +10,7 @@ LogBox.ignoreLogs(['Setting a timer']);
 LogBox.ignoreLogs(['Animated: `useNativeDriver`']);
 LogBox.ignoreLogs(['Warning: componentWillReceiveProps']);
 LogBox.ignoreLogs(['@firebase/database:']);
-LogBox.ignoreLogs(['Unhandled promise rejection: TypeError: f']);
+LogBox.ignoreLogs(['Possible Unhandled Promise Rejection']);
 
 export default function App() {
   return (<Route />)

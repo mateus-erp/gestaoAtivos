@@ -9,15 +9,37 @@ import {theme} from '../../themes/darkTheme'
 export default function TelaCadastrarColaborador({ navigation }) {
   const db = firebase.database()
   const ref = db.ref('usuarios/')
+  const refDisc = db.ref('disciplinas/')
 
   const [confirmacaoSenha, setConfirmacaoSenha] = useState('')
-  const [usuario, setUsuario] = useState({tipoDeColaborador: '', nome: '', email: '', senha: ''})
+  const [usuario, setUsuario] = useState({tipoDeColaborador: '', nome: '', email: '', senha: '', disciplina: ''})
   const [loading, setLoading] = useState(false)
+  const [looping, setLooping] = useState(false)
+  const [eProf, setEProf] = useState(false)
+  const [disciplinas, setDisciplina] = useState([])
+  const [carregadisciplinas, setcarregaDisciplina] = useState([])
+  const [disc, setDisc] = useState(false)
   const [dadosDropDown, setDadosDropDown] = useState([
     {value: 'Aluno'},
     {value: 'Professor'},
     {value: 'SGP'}
   ])
+  const Professor = () =>{
+    return (
+      <View style={Styles.containerDropDown}>
+          <Dropdown onChangeText={(text)=>{ setDisc(text)}}
+            label='Disciplina'
+            data={disciplinas}
+            onChangeText={texto => setUsuario({...usuario, disciplina: texto})}
+            value={usuario.disciplina}
+          />
+        </View>
+    )
+  }
+  
+  useEffect(() =>{
+    getDisciplinaInitial()
+  },[looping])
 
   return (
     <View style={theme.container}>
@@ -30,7 +52,14 @@ export default function TelaCadastrarColaborador({ navigation }) {
           <Dropdown
             label='Tipo de colaborador'
             data={dadosDropDown}
-            onChangeText={texto => setUsuario({...usuario, tipoDeColaborador: texto})}
+            onChangeText={texto => {
+              setUsuario({...usuario, tipoDeColaborador: texto})
+              if(texto == 'Professor'){
+                setEProf(true)
+              }else{
+                setEProf(false)
+              }
+            }}
           />
         </View>
         <View style={Styles.containerDosDados}>
@@ -75,6 +104,7 @@ export default function TelaCadastrarColaborador({ navigation }) {
             secureTextEntry={true}
           />
         </View>
+         { eProf == true ? <Professor />  : null } 
       </View>
       <View style={Styles.botaoContainer}>
         <TouchableOpacity style={theme.usual_button} onPress={()=>navigation.navigate('TelaSGP')}>
@@ -144,7 +174,7 @@ export default function TelaCadastrarColaborador({ navigation }) {
         nome: nome,
         email: email,
         senha: senha,
-      })
+      })      
       .then(function(res){
         Alert.alert('Sucesso', 'Cadastro efetuado com sucesso.')
         navigation.navigate('TelaSGP')
@@ -152,9 +182,70 @@ export default function TelaCadastrarColaborador({ navigation }) {
       .catch(function(error){
         Alert.alert('Falha no sistema', 'Erro ao inserir novo usuário.')
       })
+      if (tipoDeColaborador == 'Professor') {      
+        consultaDisciplina()
+        UpdaterDisciplina()
+      }
   }
 
+  async function getDisciplinaInitial() {
+    setLoading(true)
+    setDisciplina([])
+    const refDis = db.ref('disciplinas')
+      try {
+        let res = await refDis.orderByChild('nome').once('value')
+          if(res.val()){
+            let datalist= []
+            res.forEach((e) => {
+              datalist.push({value:e.val().nome})
+            })
+            setDisciplina(datalist)
+          }else{
+            Alert.alert('Não existem disciplinas cadastrados.')
+          }
+      } catch (error) {
+        Alert.alert('Atenção', `${error}`)
+      }
+    setLoading(false)
+  }
+
+  async function consultaDisciplina(){
+    let DiscArray = []
+    const refDis = db.ref('disciplinas/')
+      await refDis.orderByChild('nome').equalTo(disc).on('child_added', async (e) => {        
+        DiscArray.push({ key: e.key, ...e.val() })        
+        setcarregaDisciplina({...carregadisciplinas,DiscArray})
+      })
+        await db.ref('disciplinas/')
+            .child(DiscArray[0].key)
+            .remove()
+            .then(() => { });
+      
+    return DiscArray;
+  }
+
+  async function UpdaterDisciplina(){    
+    const {tipoDeColaborador, nome, email, senha} = usuario
+    await db.ref(`disciplinas/`).push({
+      nome : disc ,
+      professor : nome
+    })    
+  }
+
+  /*async function getDisciplinaInitial() {
+    let datalist = []  
+    const refD = db.ref('disciplina')
+    let res = await refD.orderByChild('nome').once('value').then((ev)=>{
+      setLooping(true)
+        ev.forEach((e) => {
+          datalist.push({key: e.key, ...e.val()})
+        })
+        setDisciplina(datalist)
+        console.log(datalist)
+      })  
+  }*/
 }
+
 
 const Styles = StyleSheet.create({
   containerPrincipal: {

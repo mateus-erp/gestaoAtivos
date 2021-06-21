@@ -9,6 +9,7 @@ const Stack = createStackNavigator();
 import TelaLogin from './scenes/telaLogin'
 import TelaLocalizarSala from './scenes/telaLocalizarSala'
 import TelaCadastrarAluno from './scenes/telaCadastrarAluno'
+import TelaConsultaAgenda from './scenes/telaConsultaAgenda';
 import TelaResetarSenha from './scenes/telaResetarSenha'
 import TelaAluno from './scenes/telaAluno'
 import TelaCadastrarAgendaAluno from './scenes/telaCadastrarAgendaAluno'
@@ -27,7 +28,9 @@ import TelaCadastrarColaborador from './scenes/telaCadastrarColaborador'
 import TelaConfigurarLocais from './scenes/telaConfigurarLocais'
 import TelaCadastrarLocal from './scenes/telaCadastrarLocal'
 import TelaEditarLocal from './scenes/telaEditarLocal'
-import TelaConsultaAgenda from './scenes/telaConsultaAgenda'
+import TelaDisciplina from './scenes/telaDisciplina'
+import TelaCadastrarDisciplina from './scenes/telaCadastrarDisciplina'
+
 export function Route(props){
     return(
         <NavigationContainer>
@@ -35,10 +38,10 @@ export function Route(props){
             <Stack.Navigator headerMode={"none"}>
                 <Stack.Screen name="TelaLogin" component={TelaLogin} />
                 <Stack.Screen name="TelaLocalizarSala" component={TelaLocalizarSala} />
+                <Stack.Screen name="TelaConsultaAgenda" component={TelaConsultaAgenda} />
                 <Stack.Screen name="TelaCadastrarAluno" component={TelaCadastrarAluno} />
                 <Stack.Screen name="TelaResetarSenha" component={TelaResetarSenha} />
                 <Stack.Screen name="TelaAluno" component={TelaAluno} />
-                <Stack.Screen name="TelaConsultaAgenda" component={TelaConsultaAgenda} />
                 <Stack.Screen name="TelaCadastrarAgendaAluno" component={TelaCadastrarAgendaAluno} />
                 <Stack.Screen name="TelaEditarAgendaAluno" component={TelaEditarAgendaAluno} />
                 <Stack.Screen name="TelaProfessor" component={TelaProfessor} />
@@ -55,6 +58,10 @@ export function Route(props){
                 <Stack.Screen name="TelaConfigurarLocais" component={TelaConfigurarLocais} />
                 <Stack.Screen name="TelaCadastrarLocal" component={TelaCadastrarLocal} />
                 <Stack.Screen name="TelaEditarLocal" component={TelaEditarLocal} />
+                <Stack.Screen name="TelaDisciplina" component={TelaDisciplina} />
+                <Stack.Screen name="TelaCadastrarDisciplina" component={TelaCadastrarDisciplina} />
+                
+                                
             </Stack.Navigator>
         </NavigationContainer>
     )
